@@ -30,7 +30,7 @@ build:
 	mkdir -p build
 	for source in $(SOURCES); do \
 	  outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
-		[[ -f "$$outfile" && "$$source" -nt "$$outfile" ]] && "$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
+		[ -f "$$outfile" ] && [ "$$source" -nt "$$outfile" ] && "$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
 	done | parallel
 
 run: build
