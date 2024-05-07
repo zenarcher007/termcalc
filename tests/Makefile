@@ -29,15 +29,19 @@ default: all
 build:
 	mkdir -p build
 	for source in $(SOURCES); do \
-		echo "$(COMPILER) $(RFLAGS) $$source -o $(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
+	  outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
+		[[ -f "$$outfile" && "$$source" -nt "$$outfile" ]] && "$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
 	done | parallel
 
 run: build
 	$(info ===== Running Tests ===== )
-	@for source in $(BUILDDIR)/*; do \
-		/bin/echo -n "Testing $$source ... " ; \
-		$$source $(LAUNCHARGS) && echo Passed || echo Failed ; \
-	done
+	@fail=0 && for sfile in $(BUILDDIR)/*; do \
+		/bin/echo -n "Testing $$sfile ... " ; \
+		result="Failed" ; \
+		$$sfile $(LAUNCHARGS) && result="Passed" || fail=1 ; \
+		echo $$result ; \
+	done ; \
+	exit $$fail
 
 
 

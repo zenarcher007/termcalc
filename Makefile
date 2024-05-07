@@ -34,11 +34,13 @@ debug:
 	mkdir -p debug
 	$(COMPILER) $(DFLAGS) $(SOURCES) -o $(DEBUGDIR)/$(EXECUTABLE)
 
-release:
-	mkdir -p release
-	$(COMPILER) $(RFLAGS) $(SOURCES) -o $(RELEASEDIR)/$(EXECUTABLE)
 
-.PHONY: all clean debug release
+
+release: $(SOURCES)
+	mkdir -p release
+	$(COMPILER) $(RFLAGS) $^ -o $(RELEASEDIR)/$(EXECUTABLE)
+
+#.PHONY: all clean debug release
 
 
 test: release

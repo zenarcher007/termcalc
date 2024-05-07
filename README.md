@@ -1,3 +1,7 @@
+# TermCalc
+### A project for Software Testing class at Knox College
+
+
 ### Test requirements
 
 * There should be a UI displayed with all available buttons
