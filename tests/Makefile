@@ -26,12 +26,16 @@ default: all
 
 .PHONY: all build run
 
-build:
+build: $(SOURCES)
 	mkdir -p build
-	for source in $(SOURCES); do \
-	  outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
-		[ -f "$$outfile" ] && [ "$$source" -nt "$$outfile" ] && "$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
-	done | parallel
+	for source in $^; do \
+		outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
+		"$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
+	done
+#for source in $(SOURCES); do \
+#  outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
+#	[ -f "$$outfile" ] && [ "$$source" -nt "$$outfile" ] && "$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
+#done | parallel
 
 run: build
 	$(info ===== Running Tests ===== )
