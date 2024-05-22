@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
   initscr();
   curs_set(0); // Disable automatic displayed cursor
   noecho(); // Disable automatic character echoing
-  keypad(stdscr, FALSE); // Disable keypad mode
+  keypad(stdscr, TRUE); // Enable keypad mode
   
   // Get size of the terminal
   int rows, cols;
