@@ -2,8 +2,29 @@
 #include <ncurses.h>
 #include <iostream>
 #include "termcalc.h"
+#include "uibutton.h"
+#include "uiwidget.h"
+#include "point.h"
+#include "buttonarray.h"
 
 using namespace termcalc;
+
+
+class Calculator {
+  private:
+    ButtonArray buttons;
+  public:
+
+  void type(int ch) {
+
+  }
+
+  Calculator(): buttons(ButtonArray(5, 5)) { // Rows, Cols
+    
+  }
+
+
+};
 
 int main(int argc, char** argv) {
   initscr();
