@@ -10,6 +10,7 @@
 #include <memory>
 #include <stdlib.h>
 #include <string>
+#include <cstring>
 
 class ButtonArray: public FocusTracker {
   private:
