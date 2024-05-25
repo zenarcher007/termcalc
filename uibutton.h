@@ -1,13 +1,16 @@
+#ifndef UIBUTTON_H
+#define UIBUTTON_H
+
 #include "uiwidget.h"
 #include <iostream>
 #include <string>
 
-class UIButton: UIWidget {
+class UIButton: public UIWidget {
   private:
   public:
 
   // Overwrite type() of UIWidget
-  bool type(char ch) {
+  virtual bool type(key_t ch) {
     if(ch == KEY_ENTER) {
       return true;
     }
@@ -18,3 +21,5 @@ class UIButton: UIWidget {
     
   }
 };
+
+#endif

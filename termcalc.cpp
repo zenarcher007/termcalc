@@ -4,7 +4,7 @@
 #include "termcalc.h"
 #include "uibutton.h"
 #include "uiwidget.h"
-#include "point.h"
+#include "loctypes.h"
 #include "buttonarray.h"
 
 using namespace termcalc;
@@ -19,7 +19,7 @@ class Calculator {
 
   }
 
-  Calculator(): buttons(ButtonArray(5, 5)) { // Rows, Cols
+  Calculator(): buttons(ButtonArray("MainButtons", Size(5, 5))) { // Rows, Cols
     
   }
 

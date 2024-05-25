@@ -11,7 +11,7 @@ BUILDDIR = build
 SYSTEM_HEADERS = /usr/local/include
 HEADERS = 
 
-CV_FLAGS = 
+CV_FLAGS = -Wno-unused-value -lncurses
 COMPILER = clang++
 CFLAGS = --system-header-prefix=$(SYSTEM_HEADERS) $(HEADERS) -std=c++20 $(CV_FLAGS)
 LAUNCHARGS = 
@@ -38,11 +38,13 @@ build: $(SOURCES)
 #done | parallel
 
 run: build
-	$(info ===== Running Tests ===== )
-	@fail=0 && for sfile in $(BUILDDIR)/*; do \
+	$(info ===== Running Tests On Last (or current) Compilation ===== )
+	echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
+	fail=0 && for sfile in $(BUILDDIR)/*; do \
 		/bin/echo -n "Testing $$sfile ... " ; \
 		result="Failed" ; \
-		$$sfile $(LAUNCHARGS) && result="Passed" || fail=1 ; \
+		echo "\n$$sfile:" >> tests.log ; \
+		$$sfile $(LAUNCHARGS) 2>&1 | tee >> tests.log && result="Passed" || fail=1 ; \
 		echo $$result ; \
 	done ; \
 	exit $$fail
@@ -50,4 +52,5 @@ run: build
 
 
 clean:
-	$(RM) $(BUILDDIR)/*
+	$(RM) $(BUILDDIR)/* ; \
+	rm -f tests.log

@@ -1,0 +1,96 @@
+-e 
+build/testbuttonswitch
+-e 
+build/testinit
+
+build/testbuttonswitch:
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at  =====
+
+build/testbuttonswitch:
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 02:44:15 CDT 2024 =====
+
+build/testbuttonswitch:
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 02:45:06 CDT 2024 =====
+
+build/testbuttonswitch:
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 02:45:29 CDT 2024 =====
+
+build/testbuttonswitch:
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 02:46:00 CDT 2024 =====
+
+build/testbuttonswitch:
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 02:47:08 CDT 2024 =====
+
+build/testbuttonswitch:
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 02:47:31 CDT 2024 =====
+
+build/testbuttonswitch:
+Testing Button Switch
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 02:48:52 CDT 2024 =====
+
+build/testbuttonswitch:
+Testing Button Switch
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 02:49:39 CDT 2024 =====
+
+build/testbuttonswitch:
+Testing Button Switch
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 65.
+0
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 13:03:38 CDT 2024 =====
+
+build/testbuttonswitch:
+Testing Button Switch
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 65.
+0
+
+build/testinit:
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 13:04:56 CDT 2024 =====
+
+build/testbuttonswitch:
+Testing Button Switch
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 65.
+0
+
+build/testinit:

@@ -13,7 +13,7 @@ EXECUTABLE = termcalc
 SYSTEM_HEADERS = /usr/local/include
 HEADERS = 
 
-CV_FLAGS = -lncurses
+CV_FLAGS = -lncurses -Wno-unused-value
 COMPILER = clang++
 CFLAGS = --system-header-prefix=$(SYSTEM_HEADERS) $(HEADERS) -std=c++20 $(CV_FLAGS)
 LAUNCHARGS = 
