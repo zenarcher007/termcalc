@@ -9,6 +9,7 @@
 #include <memory>
 #include <unordered_map>
 #include <stdlib.h>
+#include <string>
 
 class FocusTracker: public UIWidget {
   private:

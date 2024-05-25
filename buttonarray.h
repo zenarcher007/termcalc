@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <stdlib.h>
+#include <string>
 
 class ButtonArray: public FocusTracker {
   private:
