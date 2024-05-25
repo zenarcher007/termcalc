@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../termcalc.h"
 #include <ncurses.h>
+#include <memory>
 
 
 int main(int argc, char** argv) {

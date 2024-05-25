@@ -7,6 +7,7 @@
 #include "loctypes.h"
 #include <ncurses.h>
 #include <map>
+#include <memory>
 
 class ButtonArray: public FocusTracker {
   private:

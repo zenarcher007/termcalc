@@ -5,6 +5,7 @@
 #include "../loctypes.h"
 #include <assert.h>
 #include <ncurses.h>
+#include <memory>
 
 template<typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args) {
