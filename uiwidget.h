@@ -12,7 +12,7 @@ class UIWidget {
   WINDOW *window;
   bool highlighted;
   Box dims;
-  
+
   public:
   
   UIWidget(std::string name) {
@@ -26,9 +26,9 @@ class UIWidget {
   ~UIWidget() {
     if(window != nullptr)  {
       // TODO: delwin() does not seem to work on my machine????? Is this a problem?
-      delete window;
+      //delete window;
       
-      //delwin(window);
+      delwin(window);
     }
   }
 

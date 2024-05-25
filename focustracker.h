@@ -15,8 +15,8 @@ class FocusTracker: public UIWidget {
   private:
     std::string focus;
     UIWidget* focusedWidget; // For caching
-    //std::unordered_map<std::string, std::unique_ptr<UIWidget> > widgetMap;
-    std::unordered_map<std::string, UIWidget > widgetMap;
+    std::unordered_map<std::string, std::unique_ptr<UIWidget> > widgetMap;
+    //std::unordered_map<std::string, UIWidget > widgetMap;
 
   public:
 
@@ -30,15 +30,13 @@ class FocusTracker: public UIWidget {
 
   // Inherits the widget given by the unique pointer. Note: assumes ownership of the unique_ptr!
   void setWidget(Point p, std::unique_ptr<UIWidget> widget) {
-    // Big TODO here: Instead of *....get(), our map should acually be able to store the unique pointers without actually
-    // copying your object. I really do not know why it will not allow even the simple initialization of a unique pointer in a map.
-    widgetMap.insert( std::make_pair(widget->getName(), *std::move(widget).get()) );
+    widgetMap.insert( std::make_pair(widget->getName(), std::move(widget)) );
   }
 
   // Gets the widget by name. Automatically extracts the UIWidget pointer from the unique pointer.
   UIWidget* getWidget(std::string name) {
     // TODO: When the map is working correctly, add .get()
-    return &widgetMap[name]; //.get();
+    return widgetMap[name].get();
   }
 
   // Gets the currently selected widget

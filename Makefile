@@ -35,10 +35,10 @@ debug:
 	$(COMPILER) $(DFLAGS) $(SOURCES) -o $(DEBUGDIR)/$(EXECUTABLE)
 
 
-
-release: $(SOURCES)
+release: *.h *.c *.cpp $(SOURCES)
 	mkdir -p release
-	$(COMPILER) $(RFLAGS) $^ -o $(RELEASEDIR)/$(EXECUTABLE)
+	# Note: $^ : A list of all the dependencies
+	$(COMPILER) $(RFLAGS) $(SOURCES) -o $(RELEASEDIR)/$(EXECUTABLE)
 
 #.PHONY: all clean debug release
 

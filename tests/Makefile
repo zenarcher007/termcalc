@@ -40,7 +40,7 @@ build: $(SOURCES)
 run: build
 	$(info ===== Running Tests On Last (or current) Compilation ===== )
 	echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
-	for sfile in $(BUILDDIR)/*; do \
+	@for sfile in $(BUILDDIR)/*; do \
 	  /bin/echo "Queueing $$sfile ..." 1>&2 ; \
 	  /bin/echo "/bin/echo && /bin/echo '>Testing $$sfile ... ' && ./$$sfile 2>&1 && echo '>Passed' $$sfile " ; \
 	done | bash -c "parallel --keep-order --group 2>&1 --halt-on-error soon,fail,10 2>&1 | tee >(cat 1>&2) >> tests.log" 2>&1 | bash -c "tee >(cat 1>&2)" | grep 'parallel: This job failed' >/dev/null && exit 1 || exit 0

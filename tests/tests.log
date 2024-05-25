@@ -1437,3 +1437,75 @@ parallel: This job failed:
 
 >Testing build/testinit ... 
 >Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:35:37 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 83147 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:35:53 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 83287 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:36:15 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 83461 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:36:33 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 83608 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:38:40 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 84146 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:50:55 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 87307 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+>Testing build/testinit ... 
+>Passed build/testinit
