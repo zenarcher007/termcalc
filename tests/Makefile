@@ -40,14 +40,11 @@ build: $(SOURCES)
 run: build
 	$(info ===== Running Tests On Last (or current) Compilation ===== )
 	echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
-	fail=0 && for sfile in $(BUILDDIR)/*; do \
-		/bin/echo -n "Testing $$sfile ... " ; \
-		result="Failed" ; \
-		echo "\n$$sfile:" >> tests.log ; \
-		$$sfile $(LAUNCHARGS) 2>&1 | tee >> tests.log && result="Passed" || fail=1 ; \
-		echo $$result ; \
-	done ; \
-	exit $$fail
+	for sfile in $(BUILDDIR)/*; do \
+	  /bin/echo "Queueing $$sfile ..." 1>&2 ; \
+	  /bin/echo "/bin/echo && /bin/echo '>Testing $$sfile ... ' && ./$$sfile 2>&1 && echo '>Passed' $$sfile || echo '>Failed' $$sfile " ; \
+	done | bash -c "parallel --keep-order --group 2>&1 | tee >(cat 1>&2)" >> tests.log
+
 
 
 

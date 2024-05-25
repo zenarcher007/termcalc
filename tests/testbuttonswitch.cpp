@@ -58,7 +58,7 @@ void testSwitchAdjacencyFromMiddle() {
   expected_chars[3] = 8;
 
   for (int i = 0; i < 4; ++i) {
-    std::cout << i << "\n";
+    //std::cout << i << "\n";
     ButtonArray ba("Numpad", Size(3,3));
     Point p(1,1);
     UIButton* b = (UIButton*) ba.getWidget(p);
@@ -74,7 +74,6 @@ void testSwitchAdjacencyFromMiddle() {
 }
 
 int main() {
-  std::cout << "Testing Button Switch" << std::endl;
   testSwitchAdjacencyFromMiddle();
   return 0;
 }
