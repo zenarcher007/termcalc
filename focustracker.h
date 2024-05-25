@@ -7,6 +7,8 @@
 #include <ncurses.h>
 #include <string>
 #include <memory>
+#include <unordered_map>
+#include <stdlib.h>
 
 class FocusTracker: public UIWidget {
   private:

@@ -936,3 +936,14 @@ Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file t
 
 >Testing build/testinit ... 
 >Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:39:51 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+>Failed build/testbuttonswitch
+/opt/homebrew/bin/bash: line 1: 69021 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit

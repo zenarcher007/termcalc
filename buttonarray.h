@@ -8,6 +8,7 @@
 #include <ncurses.h>
 #include <map>
 #include <memory>
+#include <stdlib.h>
 
 class ButtonArray: public FocusTracker {
   private:
