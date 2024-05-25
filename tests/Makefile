@@ -43,7 +43,7 @@ run: build
 	for sfile in $(BUILDDIR)/*; do \
 	  /bin/echo "Queueing $$sfile ..." 1>&2 ; \
 	  /bin/echo "/bin/echo && /bin/echo '>Testing $$sfile ... ' && ./$$sfile 2>&1 && echo '>Passed' $$sfile " ; \
-	done | bash -c "parallel --keep-order --group 2>&1 --halt-on-error now,fail,0 2>&1 | tee >(cat 1>&2)" >> tests.log | grep 'parallel: This job failed' && exit 1 || exit 0
+	done | bash -c "parallel --keep-order --group 2>&1 --halt-on-error soon,fail,10 2>&1 | tee >(cat 1>&2) >> tests.log" 2>&1 | bash -c "tee >(cat 1>&2)" | grep 'parallel: This job failed' >/dev/null && exit 1 || exit 0
 
 
 
