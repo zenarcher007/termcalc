@@ -969,3 +969,227 @@ Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file t
 
 >Testing build/testinit ... 
 >Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:48:18 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+>Failed 0 build/testbuttonswitch
+/opt/homebrew/bin/bash: line 1: 70975 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:50:11 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 71334 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:52:55 CDT 2024 =====
+Option halt-on-error requires an argument
+Usage:
+
+parallel [options] [command [arguments]] < list_of_arguments
+parallel [options] [command [arguments]] (::: arguments|:::: argfile(s))...
+cat ... | parallel --pipe [options] [command [arguments]]
+
+-j n            Run n jobs in parallel
+-k              Keep same order
+-X              Multiple arguments with context replace
+--colsep regexp Split input on regexp for positional replacements
+{} {.} {/} {/.} {#} {%} {= perl code =} Replacement strings
+{3} {3.} {3/} {3/.} {=3 perl code =}    Positional replacement strings
+With --plus:    {} = {+/}/{/} = {.}.{+.} = {+/}/{/.}.{+.} = {..}.{+..} =
+                {+/}/{/..}.{+..} = {...}.{+...} = {+/}/{/...}.{+...}
+
+-S sshlogin     Example: foo@server.example.com
+--slf ..        Use ~/.parallel/sshloginfile as the list of sshlogins
+--trc {}.bar    Shorthand for --transfer --return {}.bar --cleanup
+--onall         Run the given command with argument on all sshlogins
+--nonall        Run the given command with no arguments on all sshlogins
+
+--pipe          Split stdin (standard input) to multiple jobs.
+--recend str    Record end separator for --pipe.
+--recstart str  Record start separator for --pipe.
+
+GNU Parallel can do much more. See 'man parallel' for details
+
+Academic tradition requires you to cite works you base your article on.
+If you use programs that use GNU Parallel to process data for an article in a
+scientific publication, please cite:
+
+  Tange, O. (2024, March 22). GNU Parallel 20240322 ('Sweden').
+  Zenodo. https://doi.org/10.5281/zenodo.10901541
+
+This helps funding further development; AND IT WON'T COST YOU A CENT.
+If you pay 10000 EUR you should feel free to use GNU Parallel without citing.
+
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:53:16 CDT 2024 =====
+parallel: Error: --halt now must be followed by ,success or ,fail.
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:53:26 CDT 2024 =====
+parallel: Error: --halt now,fail must be followed by ,number or ,percent%.
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:53:34 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 72126 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:54:07 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 72301 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+parallel: Starting no more jobs. Waiting for 1 jobs to finish.
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:55:19 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 72551 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+parallel: Starting no more jobs. Waiting for 1 jobs to finish.
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:55:30 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 72657 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+parallel: Starting no more jobs. Waiting for 1 jobs to finish.
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:56:37 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 72893 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+parallel: Starting no more jobs. Waiting for 1 jobs to finish.
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:56:47 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 72998 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:58:42 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 73371 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:59:13 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 73534 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+true
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 15:59:30 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 73659 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:01:44 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 74411 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:01:57 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 74519 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:02:04 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 74616 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:02:12 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 74710 Abort trap: 6           ./build/testbuttonswitch 2>&1
+
+>Testing build/testinit ... 
+>Passed build/testinit
+
+
+===== Running Tests On Last (or current) Compilation at Sat May 25 16:13:34 CDT 2024 =====
+
+>Testing build/testbuttonswitch ... 
+Assertion failed: (b != nullptr), function testSwitchAdjacencyFromMiddle, file testbuttonswitch.cpp, line 66.
+/opt/homebrew/bin/bash: line 1: 77729 Abort trap: 6           ./build/testbuttonswitch 2>&1
+parallel: This job failed:
+/bin/echo && /bin/echo '>Testing build/testbuttonswitch ... ' && ./build/testbuttonswitch 2>&1 && echo '>Passed' build/testbuttonswitch 

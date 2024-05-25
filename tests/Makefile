@@ -42,8 +42,8 @@ run: build
 	echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
 	for sfile in $(BUILDDIR)/*; do \
 	  /bin/echo "Queueing $$sfile ..." 1>&2 ; \
-	  /bin/echo "/bin/echo && /bin/echo '>Testing $$sfile ... ' && ./$$sfile 2>&1 && echo '>Passed' $$sfile || echo '>Failed' $$sfile " ; \
-	done | bash -c "parallel --keep-order --group 2>&1 | tee >(cat 1>&2)" >> tests.log
+	  /bin/echo "/bin/echo && /bin/echo '>Testing $$sfile ... ' && ./$$sfile 2>&1 && echo '>Passed' $$sfile " ; \
+	done | bash -c "parallel --keep-order --group 2>&1 --halt-on-error now,fail,0 2>&1 | tee >(cat 1>&2)" >> tests.log | grep 'parallel: This job failed' && exit 1 || exit 0
 
 
 
