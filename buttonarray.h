@@ -18,8 +18,8 @@ class ButtonArray: public FocusTracker {
 
   public:
   ButtonArray(std::string name, Size s): FocusTracker(name) {
-    buttons = (std::unique_ptr<UIButton>*) malloc(sizeof(buttons[0]) * s.rows * s.cols);
-    memset(buttons, 0, sizeof(UIButton[0]) * s.rows * s.cols);
+    buttons = (std::unique_ptr<UIButton>*) std::malloc(sizeof(buttons[0]) * s.rows * s.cols);
+    std::memset(buttons, 0, sizeof(UIButton[0]) * s.rows * s.cols);
     this->dims = s;
   }
 
