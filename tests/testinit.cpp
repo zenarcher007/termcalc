@@ -8,5 +8,5 @@ int main(int argc, char** argv) {
   char** termargv = NULL;
   //termcalc::main(0, termargv);
 
-  exit(0);
+  exit(1);
 }

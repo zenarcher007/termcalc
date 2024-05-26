@@ -7,3 +7,4 @@ tests/debug
 *.o
 *.out
 *.dSYM
+tests.log
