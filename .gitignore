@@ -3,4 +3,7 @@
 release
 debug
 tests/build
+tests/debug
 *.o
+*.out
+*.dSYM

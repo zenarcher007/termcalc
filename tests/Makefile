@@ -6,14 +6,16 @@
 SRC_DIR = .
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 BUILDDIR = build
+DEBUGDIR = debug
 
 # Header search paths
 SYSTEM_HEADERS = /usr/local/include
 HEADERS = 
 
-CV_FLAGS = -Wno-unused-value -lncurses
+CV_FLAGS = -Wno-unused-value -Wno-c++11-extensions -lncurses
 COMPILER = clang++
 CFLAGS = --system-header-prefix=$(SYSTEM_HEADERS) $(HEADERS) -std=c++20 $(CV_FLAGS)
+DFLAGS = -g -Wno-unused-value -Wno-c++11-extensions -lncurses
 LAUNCHARGS = 
 RM = rm -rf
 
@@ -26,11 +28,19 @@ default: all
 
 .PHONY: all build run
 
+debug: $(SOURCES)
+	mkdir -p "$(DEBUGDIR)"
+	for source in $^; do \
+		outfile="$(DEBUGDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
+		"$(COMPILER)" $(DFLAGS) "$$source" -o "$$outfile" && \
+		cp -f "$$source" "$(DEBUGDIR)/"; \
+	done
+
 build: $(SOURCES)
-	mkdir -p build
+	mkdir -p "$(BUILDDIR)"
 	for source in $^; do \
 		outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
-		"$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
+		"$(COMPILER)" $(RFLAGS) "$$source" -o "$$outfile" ; \
 	done
 #for source in $(SOURCES); do \
 #  outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
@@ -39,7 +49,7 @@ build: $(SOURCES)
 
 run: build
 	$(info ===== Running Tests On Last (or current) Compilation ===== )
-	echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
+	@echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
 	@for sfile in $(BUILDDIR)/*; do \
 	  /bin/echo "Queueing $$sfile ..." 1>&2 ; \
 	  /bin/echo "/bin/echo && /bin/echo '>Testing $$sfile ... ' && ./$$sfile 2>&1 && echo '>Passed' $$sfile " ; \

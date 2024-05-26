@@ -15,7 +15,7 @@ class FocusTracker: public UIWidget {
   private:
     std::string focus;
     UIWidget* focusedWidget; // For caching
-    std::unordered_map<std::string, std::unique_ptr<UIWidget> > widgetMap;
+    std::map<std::string, std::shared_ptr<UIWidget> > widgetMap;
     //std::unordered_map<std::string, UIWidget > widgetMap;
 
   public:
@@ -29,8 +29,12 @@ class FocusTracker: public UIWidget {
   }
 
   // Inherits the widget given by the unique pointer. Note: assumes ownership of the unique_ptr!
-  void setWidget(Point p, std::unique_ptr<UIWidget> widget) {
-    widgetMap.insert( std::make_pair(widget->getName(), std::move(widget)) );
+  // TODO: make this acually a unique_ptr. I do not know why this was not working with a shared ptr even with care to not copy
+  void setWidget(std::shared_ptr<UIWidget> &widget) {
+    //auto entry = std::make_pair(widget->getName(), std::move(widget));
+    //widgetMap.emplace(widget->getName(), std::move(widget));
+    //std::shared_ptr<UIWidget> entry = std::move(widget);
+    widgetMap.insert(std::make_pair(widget->getName(), widget)); // TODO: Why doesn't emplace work??
   }
 
   // Gets the widget by name. Automatically extracts the UIWidget pointer from the unique pointer.

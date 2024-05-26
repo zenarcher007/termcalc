@@ -25,7 +25,7 @@ RM = rm -rf
 DFLAGS = $(CFLAGS) -gdwarf-4 -g3
 
 # Release options (in addition to global CFLAGS):
-RFLAGS = $(CFLAGS) -O3 -flto
+RFLAGS = $(CFLAGS) -O -flto
 
 all: clean release
 default: all
@@ -39,6 +39,10 @@ release: *.h *.c *.cpp $(SOURCES)
 	mkdir -p release
 	# Note: $^ : A list of all the dependencies
 	$(COMPILER) $(RFLAGS) $(SOURCES) -o $(RELEASEDIR)/$(EXECUTABLE)
+
+debug: *.h *.c *.cpp $(SOURCES)
+	mkdir  -p debug
+	$(COMPILER) $(DFLAGS) $(SOURCES)  -o  $(DEBUGDIR)/$(EXECUTABLE)
 
 #.PHONY: all clean debug release
 

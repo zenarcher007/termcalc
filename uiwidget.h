@@ -25,9 +25,7 @@ class UIWidget {
 
   ~UIWidget() {
     if(window != nullptr)  {
-      // TODO: delwin() does not seem to work on my machine????? Is this a problem?
       //delete window;
-      
       delwin(window);
     }
   }
@@ -38,9 +36,6 @@ class UIWidget {
     if (window != nullptr) {
       return;
     }
-    initscr();
-    noecho();
-    keypad(stdscr, TRUE);
     
     window = newwin(b.rows, b.cols, b.row0, b.col0);
     dims = b;

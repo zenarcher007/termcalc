@@ -11,6 +11,12 @@ class Point {
     col = 0;
   }
 
+  // COUT operator overload
+  friend std::ostream& operator<< (std::ostream &out, const Point &p) {
+    out << "(" << p.row << ", " << p.col << ")";
+    return out;
+  }
+
   Point(int row, int col): row(row), col(col) {
   }
 };

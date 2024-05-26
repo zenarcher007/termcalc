@@ -14,13 +14,13 @@
 
 class ButtonArray: public FocusTracker {
   private:
-  std::unique_ptr<UIButton> *buttons;
+  UIButton** buttons;
   Size dims;
 
 
   public:
   ButtonArray(std::string name, Size s): FocusTracker(name) {
-    buttons = (std::unique_ptr<UIButton>*) std::malloc(sizeof(buttons[0]) * s.rows * s.cols);
+    buttons = (UIButton**) std::malloc(sizeof(buttons[0]) * s.rows * s.cols);
     memset(buttons, 0, sizeof(UIButton[0]) * s.rows * s.cols);
     this->dims = s;
   }
@@ -30,24 +30,27 @@ class ButtonArray: public FocusTracker {
   }
 
   // Inherits the widget given by the uniqe pointer. Note: assumes ownership of the unique_ptr!
-  void setWidget(Point p, std::unique_ptr<UIButton> &button) {
-    // Call the superclass method of setWidget:
-    FocusTracker::setWidget(p, (std::unique_ptr<UIWidget>) std::move(button));
+  void setWidget(Point p, std::shared_ptr<UIWidget> &button) {
+    FocusTracker::setWidget(button);
+    buttons[p.row * dims.cols + p.col] = (UIButton*) button.get();
+    UIWidget* above = getWidget(Point(p.row - 1, p.col));
+    if (above) {
+      add_adjacency(button->getName(), above->getName(), KEY_UP);
+    }
 
-    // Register all the positionally neighboring buttons in the array as neighbors using the FocusTracker class method:
-    // add_adjacency(string name, string adjName, char keypress)
-    // Each button will be registered using the names of its neighbors, and the up/down/left/right keys as keypresses:
-    if(p.row - 1 >= 0) {
-      add_adjacency(button->getName(), getWidget(Point(p.row - 1, p.col))->getName(), KEY_UP);
+    UIWidget* below = getWidget(Point(p.row + 1, p.col));
+    if (below) {
+      add_adjacency(button->getName(), below->getName(), KEY_DOWN);
     }
-    if(p.row + 1 < dims.rows) {
-      add_adjacency(button->getName(), getWidget(Point(p.row + 1, p.col))->getName(), KEY_DOWN);
+
+    UIWidget* left = getWidget(Point(p.row, p.col - 1));
+    if (left) {
+      add_adjacency(button->getName(), left->getName(), KEY_LEFT);
     }
-    if(p.col - 1 >= 0) {
-      add_adjacency(button->getName(), getWidget(Point(p.row, p.col - 1))->getName(), KEY_LEFT);
-    }
-    if(p.col + 1 < dims.cols) {
-      add_adjacency(button->getName(), getWidget(Point(p.row, p.col + 1))->getName(), KEY_RIGHT);
+
+    UIWidget* right = getWidget(Point(p.row, p.col + 1));
+    if (right) {
+      add_adjacency(button->getName(), right->getName(), KEY_RIGHT);
     }
   }
 
@@ -63,7 +66,7 @@ class ButtonArray: public FocusTracker {
 
   // Gets the widget at the point
   UIButton* getWidget(Point p) {
-    return buttons[p.row * dims.rows + p.col].get();
+    return buttons[p.row * dims.cols + p.col];
   }
   
 };
