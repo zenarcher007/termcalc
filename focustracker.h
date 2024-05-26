@@ -43,9 +43,9 @@ class FocusTracker: public UIWidget {
     return widgetMap[name].get();
   }
 
-  // Gets the currently selected widget
-  UIWidget* getFocusedWidget() {
-    return focusedWidget;
+  // Gets the currently selected button
+  UIButton* getFocusedWidget() {
+    return (UIButton*)focusedWidget;
   }
 
   // Adds a rule for which given that a current widget is selected, pressing a given key will select another widget.
