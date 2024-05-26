@@ -59,7 +59,7 @@ class FocusTracker: public UIWidget {
 
   // Passes the keypresses to the currently selected widget. If the widget returns true, the keypress is consumed and no other widgets will be notified of it.
   // If the widget returns false, then the keypress attempts to activate the next widget in the adjacency list if an ajacency is specified for that keypress
-  bool type(char c) {
+  bool type(key_t c) {
     return false;
   }
 
