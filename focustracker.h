@@ -30,7 +30,7 @@ class FocusTracker: public UIWidget {
 
   // Inherits the widget given by the unique pointer. Note: assumes ownership of the unique_ptr!
   // TODO: make this acually a unique_ptr. I do not know why this was not working with a shared ptr even with care to not copy
-  void setWidget(std::shared_ptr<UIWidget> &widget) {
+  void addWidget(std::shared_ptr<UIWidget> &widget) {
     //auto entry = std::make_pair(widget->getName(), std::move(widget));
     //widgetMap.emplace(widget->getName(), std::move(widget));
     //std::shared_ptr<UIWidget> entry = std::move(widget);
@@ -50,7 +50,8 @@ class FocusTracker: public UIWidget {
 
   // Adds a rule for which given that a current widget is selected, pressing a given key will select another widget.
   void add_adjacency(std::string name, std::string adjName, key_t keypress) {
-    
+    //std::pair<std::string, 
+    //widgetMap
   }
 
   void select(std::string name) {

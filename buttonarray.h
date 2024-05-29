@@ -30,8 +30,8 @@ class ButtonArray: public FocusTracker {
   }
 
   // Inherits the widget given by the uniqe pointer. Note: assumes ownership of the unique_ptr!
-  void setWidget(Point p, std::shared_ptr<UIWidget> &button) {
-    FocusTracker::setWidget(button);
+  void addWidget(Point p, std::shared_ptr<UIWidget> &button) {
+    FocusTracker::addWidget(button);
     buttons[p.row * dims.cols + p.col] = (UIButton*) button.get();
     UIWidget* above = getWidget(Point(p.row - 1, p.col));
     if (above) {
