@@ -35,6 +35,9 @@ class FocusTracker: public UIWidget {
     //widgetMap.emplace(widget->getName(), std::move(widget));
     //std::shared_ptr<UIWidget> entry = std::move(widget);
     widgetMap.insert(std::make_pair(widget->getName(), widget)); // TODO: Why doesn't emplace work??
+    if(focusedWidget == nullptr) {
+      select(widget->getName());
+    }
   }
 
   // Gets the widget by name. Automatically extracts the UIWidget pointer from the unique pointer.
@@ -55,6 +58,7 @@ class FocusTracker: public UIWidget {
   }
 
   void select(std::string name) {
+    focus = name;
     focusedWidget = getWidget(name);
   }
 
