@@ -51,7 +51,7 @@ ButtonArray initButtons() {
 
 void testButtonLookupByName() {
   ButtonArray ba = initButtons();
-  for (int i = 0 ; i < 9 ; ++i) {
+  for (int i = 1 ; i <= 9 ; ++i) {
     // Derive button name from index.
     std::string buttonName = std::to_string(i);
 
