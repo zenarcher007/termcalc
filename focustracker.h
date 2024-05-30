@@ -75,8 +75,9 @@ class FocusTracker: public UIWidget {
         select(it->second);
         return true;
       }
+      return false;
     }
-    return false;
+    return true;
   }
 
 };

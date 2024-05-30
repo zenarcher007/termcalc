@@ -38,12 +38,14 @@ class WidgetArray: public FocusTracker {
     if(isOutOfBounds(p, dims))  {
       throw std::out_of_range(std::format("addWidgetAtPoint(): Point ({}, {}) is out of bounds", p.col, p.row));
     }
-    FocusTracker::addWidget(widget);
+    
     widgets[p.row * dims.cols + p.col] = (UIWidget*) widget.get();
+    FocusTracker::addWidget(widget);
     if (!isOutOfBounds(Point(p.row - 1, p.col), dims)) {
       auto above = getWidgetAtPoint(Point(p.row - 1, p.col));
       if (above) {
         add_adjacency(widget->getName(), above->getName(), KEY_UP);
+        add_adjacency(above->getName(), widget->getName(), KEY_DOWN); // Update neigboring widget to link to this newly added one
       }
     }
 
@@ -51,6 +53,7 @@ class WidgetArray: public FocusTracker {
       auto below = getWidgetAtPoint(Point(p.row + 1, p.col));
       if (below) {
         add_adjacency(widget->getName(), below->getName(), KEY_DOWN);
+        add_adjacency(below->getName(), widget->getName(), KEY_UP);
       }
     }
 
@@ -58,6 +61,7 @@ class WidgetArray: public FocusTracker {
       auto left = getWidgetAtPoint(Point(p.row, p.col - 1));
       if (left) {
         add_adjacency(widget->getName(), left->getName(), KEY_LEFT);
+        add_adjacency(left->getName(), widget->getName(), KEY_RIGHT);
       }
     }
 
@@ -65,6 +69,7 @@ class WidgetArray: public FocusTracker {
       auto right = getWidgetAtPoint(Point(p.row, p.col + 1));
       if (right) {
         add_adjacency(widget->getName(), right->getName(), KEY_RIGHT);
+        add_adjacency(right->getName(), widget->getName(), KEY_LEFT);
       }
     }
   }
@@ -77,7 +82,9 @@ class WidgetArray: public FocusTracker {
   // Selects the widget at a point (could be more efficient)
   void selectAtPoint(Point p) {
     UIWidget* w = getWidgetAtPoint(p);
-    assert(w != nullptr);
+    if(w == nullptr) {
+      throw std::runtime_error(std::format("No widget at location ({}, {})", p.col, p.row));
+    }
     std::string name = w->getName();
     FocusTracker::select(name);
   }
