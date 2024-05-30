@@ -20,7 +20,8 @@ LAUNCHARGS =
 RM = rm -rf
 
 # Release options (in addition to global CFLAGS):
-RFLAGS = $(CFLAGS) -O3 -flto
+RFLAGS = $(CFLAGS) -O0
+#-flto
 
 #all: clean default test
 all: build run
@@ -47,7 +48,10 @@ build: $(SOURCES)
 #	[ -f "$$outfile" ] && [ "$$source" -nt "$$outfile" ] && "$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
 #done | parallel
 
-run: build
+cleanbuildandrun: clean build run
+buildandrun: build run
+
+run:
 	$(info ===== Running Tests On Last (or current) Compilation ===== )
 	@echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
 	@for sfile in $(BUILDDIR)/*; do \

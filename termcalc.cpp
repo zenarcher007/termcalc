@@ -5,7 +5,7 @@
 #include "uibutton.h"
 #include "uiwidget.h"
 #include "loctypes.h"
-#include "buttonarray.h"
+#include "widgetarray.h"
 #include "focustracker.h"
 #include <atomic>
 
@@ -14,14 +14,14 @@ using namespace termcalc;
 
 class Calculator {
   private:
-    ButtonArray buttons;
+    WidgetArray widgets;
   public:
 
   void type(int ch) {
 
   }
 
-  Calculator(): buttons(ButtonArray("MainButtons", Size(5, 5))) { // Rows, Cols
+  Calculator(): widgets(WidgetArray("MainButtons", Size(5, 5))) { // Rows, Cols
     
   }
 

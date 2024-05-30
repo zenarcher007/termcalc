@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../termcalc.h"
-#include "../buttonarray.h"
+#include "../widgetarray.h"
 #include "../uibutton.h"
 #include "../loctypes.h"
 #include <assert.h>

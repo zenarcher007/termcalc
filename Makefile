@@ -46,9 +46,12 @@ debug: *.h *.c *.cpp $(SOURCES)
 
 #.PHONY: all clean debug release
 
+buildtests:
+	cd $(TESTDIR) && make build
 
+# The entire continuous integration test cycle
 test: release
-	cd $(TESTDIR) && make run
+	cd $(TESTDIR) && make cleanbuildandrun
 
 run:
 	$(RELEASEDIR)/$(EXECUTABLE) $(LAUNCHARGS)
