@@ -79,9 +79,11 @@ void testSwitchAdjacencyFromMiddle() {
     assert(b != nullptr);
     assert(b->getName() == "5");
     
-    
+    std::cout << std::endl;
+    std::cout << "ITERATION " << i  << std::endl;
     std::cout << wa.getFocusedWidget()->getName() << std::endl;
-    wa.type(keys[i]);
+    std::cout << keys[i] << ", " << (char) keys[i] << std::endl;
+    assert(wa.type(keys[i]) == true); // If an object handles the keypress, type() should return true
     std::cout << wa.getFocusedWidget()->getName() << std::endl;
     UIButton* newFocused = (UIButton*) wa.getFocusedWidget();
     assert(newFocused != nullptr);
