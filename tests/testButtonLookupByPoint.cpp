@@ -56,87 +56,50 @@ void testButtonLookupByPoint() {
   assert(ba.getWidgetAtPoint(Point(2,2)) == ptr9.get()); 
 }
 
-// Heh... Ollama Continue (like GitHub Copilot) actually generated most of this...
-void testButtonLookupByPointOutOfBounds(){
-  WidgetArray wa("OutofBoundsTestArray", Size(2,2));
+void testOutOfBounds() {
+  WidgetArray ba("OutofBoundsTestArray", Size(2, 2));
   std::shared_ptr<UIWidget> ptr1(new UIButton("1"));
-  wa.addWidgetAtPoint(Point(0,0), ptr1);
+  ba.addWidgetAtPoint(Point(0, 0), ptr1);
   std::shared_ptr<UIWidget> ptr2(new UIButton("2"));
-  wa.addWidgetAtPoint(Point(0,1), ptr2);
+  ba.addWidgetAtPoint(Point(0, 1), ptr2);
   std::shared_ptr<UIWidget> ptr3(new UIButton("3"));
-  wa.addWidgetAtPoint(Point(1,0), ptr3);
+  ba.addWidgetAtPoint(Point(1, 0), ptr3);
   std::shared_ptr<UIWidget> ptr4(new UIButton("4"));
-  wa.addWidgetAtPoint(Point(1,1), ptr4);
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(-1,-1));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
+  ba.addWidgetAtPoint(Point(1, 1), ptr4);
+  
+  std::array expectedPoints{Point(-1, -1), Point(-1, 0), Point(-1, 1),
+                            Point(-1, 2), Point(0, -1), Point(0, 3),
+                            Point(1, -1), Point(1, 3), Point(2, -1),
+                            Point(2, 3), Point(3, -1), Point(3, 0) };
+  
+  // Check getWidgetAtPoint throws out of range exceptions for all points
+  for (const auto &point : expectedPoints) {
+    try {
+      UIWidget* widget = ba.getWidgetAtPoint(point);
+      assert(false && "getWidgetAtPoint: should have thrown an exception!");
+    } catch (std::out_of_range& e) {
+      // Do nothing, this is the expected result
+    }
   }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(-1,0));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(-1,1));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(-1,2));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(0,-1));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(0,3));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(1,-1));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(1,3));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(2,-1));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(2,3));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(3,-1));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(3,0));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(3,1));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
-  try {
-    UIWidget* widget = wa.getWidgetAtPoint(Point(3,2));
-    assert(false && "Should have thrown an exception!");
-  } catch (std::out_of_range& e) {
-  }
+
+  // Check the same with addWidgetAtPoint
+  for  (const auto &point : expectedPoints) {
+    try  {
+      ba.addWidgetAtPoint(point, ptr1);
+      assert(false && "addWidgetAtPoint: should have thrown an exception!");
+     } catch  (std::out_of_range& e)  {
+     }
+   }
+  
+  // Check the same with selectAtPoint
+  for  (const auto &point : expectedPoints) {
+    try  {
+      ba.selectAtPoint(point);
+      assert(false && "Should have thrown an exception!");
+     } catch  (std::out_of_range& e)  {
+     }
+   }
+   
 }
 
 int main() {
