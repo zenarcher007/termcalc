@@ -5,6 +5,10 @@ debug
 tests/build
 tests/debug
 *.o
+*.a
+*.s
+*.ii
 *.out
+*.bc
 *.dSYM
 tests.log

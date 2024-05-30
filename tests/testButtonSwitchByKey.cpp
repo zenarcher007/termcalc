@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <ncurses.h>
 #include <memory>
+#include <stdexcept>
 
 template<typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args) {
@@ -68,6 +69,7 @@ void testSwitchAdjacencyFromMiddle() {
 
 
   for (int i = 0; i < 4; ++i) {
+    //std::cout << "BEGIN " << i << std::endl;
     WidgetArray wa = initButtons();
     Point p(1,1);
     wa.selectAtPoint(p);
@@ -84,6 +86,7 @@ void testSwitchAdjacencyFromMiddle() {
     UIButton* newFocused = (UIButton*) wa.getFocusedWidget();
     assert(newFocused != nullptr);
     assert(newFocused->getName() == std::to_string(expected_chars[i]));
+    //std::cout << "END " << i << std::endl;
   }
   delete[] keys;
   delete[] expected_chars;

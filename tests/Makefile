@@ -6,7 +6,7 @@
 SRC_DIR = .
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 BUILDDIR = build
-DEBUGDIR = debug
+DEBUGDIR = build
 
 # Header search paths
 SYSTEM_HEADERS = /usr/local/include
@@ -15,7 +15,7 @@ HEADERS =
 CV_FLAGS = -Wno-unused-value -Wno-c++11-extensions -lncurses
 COMPILER = clang++
 CFLAGS = --system-header-prefix=$(SYSTEM_HEADERS) $(HEADERS) -std=c++20 $(CV_FLAGS)
-DFLAGS = -g -Wno-unused-value -Wno-c++11-extensions -lncurses
+DFLAGS = $(CFLAGS) -gdwarf-4 -g3
 LAUNCHARGS = 
 RM = rm -rf
 
@@ -31,10 +31,11 @@ default: all
 
 debug: $(SOURCES)
 	mkdir -p "$(DEBUGDIR)"
+	cd "$(DEBUGDIR)"
 	for source in $^; do \
 		outfile="$(DEBUGDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
-		"$(COMPILER)" $(DFLAGS) "$$source" -o "$$outfile" && \
-		cp -f "$$source" "$(DEBUGDIR)/"; \
+		cp -f "$$source" "$(DEBUGDIR)/" && \
+		"$(COMPILER)" $(DFLAGS) "$$source" --save-temps=obj -o "$$outfile" ; \
 	done
 
 build: $(SOURCES)
@@ -48,13 +49,12 @@ build: $(SOURCES)
 #	[ -f "$$outfile" ] && [ "$$source" -nt "$$outfile" ] && "$(COMPILER)" "$(RFLAGS)" "$$source" -o "$$outfile" ; \
 #done | parallel
 
-cleanbuildandrun: clean build run
-buildandrun: build run
 
 run:
 	$(info ===== Running Tests On Last (or current) Compilation ===== )
 	@echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
 	@for sfile in $(BUILDDIR)/*; do \
+    grep '\.' <<< "$$sfile" &>/dev/null && continue ; \
 	  /bin/echo "Queueing $$sfile ..." 1>&2 ; \
 	  /bin/echo "/bin/echo && /bin/echo '>Testing $$sfile ... ' && ./$$sfile 2>&1 && echo '>Passed' $$sfile " ; \
 	done | bash -c "parallel --keep-order --group 2>&1 --halt-on-error soon,fail,10 2>&1 | tee >(cat 1>&2) >> tests.log" 2>&1 | bash -c "tee >(cat 1>&2)" | grep 'parallel: This job failed' >/dev/null && exit 1 || exit 0

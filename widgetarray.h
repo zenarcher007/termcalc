@@ -12,11 +12,16 @@
 #include <string>
 #include <cstring>
 #include <assert.h>
+#include <format>
 class WidgetArray: public FocusTracker {
   private:
   UIWidget** widgets;
   Size dims;
 
+  bool isOutOfBounds(Point pos, Size arrdims) {
+    std::cout << "pos: (" << pos.row << ", " << pos.col << ") arrdims: (" << arrdims.rows << ", " << arrdims.cols << ")" << std::endl;
+    return pos.row >= arrdims.rows || pos.col >= arrdims.cols || pos.row < 0 || pos.col < 0;
+  }
 
   public:
   WidgetArray(std::string name, Size s): FocusTracker(name) {
@@ -31,6 +36,9 @@ class WidgetArray: public FocusTracker {
 
   // Inherits the widget given by the uniqe pointer. Note: assumes ownership of the unique_ptr!
   void addWidgetAtPoint(Point p, std::shared_ptr<UIWidget> &widget) {
+    if(isOutOfBounds(p, dims))  {
+      throw std::out_of_range(std::format("addWidgetAtPoint(): Point ({}, {}) is out of bounds", p.col, p.row));
+    }
     FocusTracker::addWidget(widget);
     widgets[p.row * dims.cols + p.col] = (UIWidget*) widget.get();
     UIWidget* above = getWidgetAtPoint(Point(p.row - 1, p.col));
@@ -45,7 +53,9 @@ class WidgetArray: public FocusTracker {
 
     UIWidget* left = getWidgetAtPoint(Point(p.row, p.col - 1));
     if (left) {
+      //std::cout << widget->getName() << ",MOO, " << left->getName() << std::endl;
       add_adjacency(widget->getName(), left->getName(), KEY_LEFT);
+      //std::cout << widget->getName() << ", DONE, " << below->getName() << std::endl;
     }
 
     UIWidget* right = getWidgetAtPoint(Point(p.row, p.col + 1));
@@ -69,6 +79,9 @@ class WidgetArray: public FocusTracker {
 
   // Gets the widget at the point. Returns nullptr if there is no widget at that point
   UIWidget* getWidgetAtPoint(Point p) {
+    if(isOutOfBounds(p, dims))  {
+      throw std::out_of_range(std::format("getWidgetAtPoint() (possibly called by selectAtPoint): Point ({}, {}) is out of bounds", p.col, p.row));
+    }
     return widgets[p.row * dims.cols + p.col];
   }
   

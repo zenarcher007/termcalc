@@ -54,7 +54,6 @@ void testButtonLookupByName() {
   for (int i = 1 ; i <= 9 ; ++i) {
     // Derive button name from index.
     std::string buttonName = std::to_string(i);
-
     UIButton* button = (UIButton*) ba.getWidget(buttonName);
     assert(button != nullptr);
     assert(button->getName() == buttonName);

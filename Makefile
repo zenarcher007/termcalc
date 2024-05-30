@@ -30,28 +30,24 @@ RFLAGS = $(CFLAGS) -O -flto
 all: clean release
 default: all
 
-debug:
-	mkdir -p debug
-	$(COMPILER) $(DFLAGS) $(SOURCES) -o $(DEBUGDIR)/$(EXECUTABLE)
-
 
 release: *.h *.c *.cpp $(SOURCES)
-	mkdir -p release
+	mkdir -p "$(RELEASEDIR)"
 	# Note: $^ : A list of all the dependencies
 	$(COMPILER) $(RFLAGS) $(SOURCES) -o $(RELEASEDIR)/$(EXECUTABLE)
 
 debug: *.h *.c *.cpp $(SOURCES)
-	mkdir  -p debug
+	mkdir -p "$(DEBUGDIR)"
 	$(COMPILER) $(DFLAGS) $(SOURCES)  -o  $(DEBUGDIR)/$(EXECUTABLE)
 
 #.PHONY: all clean debug release
 
-buildtests:
-	cd $(TESTDIR) && make build
+cleanbuildtests:
+	cd $(TESTDIR) && make clean build
 
 # The entire continuous integration test cycle
 test: release
-	cd $(TESTDIR) && make cleanbuildandrun
+	cd $(TESTDIR) && make clean build run
 
 run:
 	$(RELEASEDIR)/$(EXECUTABLE) $(LAUNCHARGS)
