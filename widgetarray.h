@@ -19,7 +19,6 @@ class WidgetArray: public FocusTracker {
   Size dims;
 
   bool isOutOfBounds(Point pos, Size arrdims) {
-    std::cout << "pos: (" << pos.row << ", " << pos.col << ") arrdims: (" << arrdims.rows << ", " << arrdims.cols << ")" << std::endl;
     return pos.row >= arrdims.rows || pos.col >= arrdims.cols || pos.row < 0 || pos.col < 0;
   }
 
@@ -41,26 +40,32 @@ class WidgetArray: public FocusTracker {
     }
     FocusTracker::addWidget(widget);
     widgets[p.row * dims.cols + p.col] = (UIWidget*) widget.get();
-    UIWidget* above = getWidgetAtPoint(Point(p.row - 1, p.col));
-    if (above) {
-      add_adjacency(widget->getName(), above->getName(), KEY_UP);
+    if (!isOutOfBounds(Point(p.row - 1, p.col), dims)) {
+      auto above = getWidgetAtPoint(Point(p.row - 1, p.col));
+      if (above) {
+        add_adjacency(widget->getName(), above->getName(), KEY_UP);
+      }
     }
 
-    UIWidget* below = getWidgetAtPoint(Point(p.row + 1, p.col));
-    if (below) {
-      add_adjacency(widget->getName(), below->getName(), KEY_DOWN);
+    if (!isOutOfBounds(Point(p.row + 1, p.col), dims)) {
+      auto below = getWidgetAtPoint(Point(p.row + 1, p.col));
+      if (below) {
+        add_adjacency(widget->getName(), below->getName(), KEY_DOWN);
+      }
     }
 
-    UIWidget* left = getWidgetAtPoint(Point(p.row, p.col - 1));
-    if (left) {
-      //std::cout << widget->getName() << ",MOO, " << left->getName() << std::endl;
-      add_adjacency(widget->getName(), left->getName(), KEY_LEFT);
-      //std::cout << widget->getName() << ", DONE, " << below->getName() << std::endl;
+    if (!isOutOfBounds(Point(p.row, p.col - 1), dims)) {
+      auto left = getWidgetAtPoint(Point(p.row, p.col - 1));
+      if (left) {
+        add_adjacency(widget->getName(), left->getName(), KEY_LEFT);
+      }
     }
 
-    UIWidget* right = getWidgetAtPoint(Point(p.row, p.col + 1));
-    if (right) {
-      add_adjacency(widget->getName(), right->getName(), KEY_RIGHT);
+    if (!isOutOfBounds(Point(p.row, p.col + 1), dims)) {
+      auto right = getWidgetAtPoint(Point(p.row, p.col + 1));
+      if (right) {
+        add_adjacency(widget->getName(), right->getName(), KEY_RIGHT);
+      }
     }
   }
 
