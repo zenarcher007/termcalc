@@ -72,9 +72,9 @@ void testUnhandledMouseEventDoesNotSelectButton() {
 
 
 int main() {
-  std::cout << "testMouseEventSelectsButton()... ";
+  std::cout << "testMouseEventSelectsButton()..." << std::endl;
   testMouseEventSelectsButton();
-  std::cout << "Passed!" << std::endl;
+  std::cout << "\nPassed!" << std::endl;
 
   std::cout <<  "testUnhandledMouseEventDoesNotSelectButton()... ";
   testUnhandledMouseEventDoesNotSelectButton();

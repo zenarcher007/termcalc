@@ -34,8 +34,8 @@ class Calculator {
 
   public:
 
-  bool type(int ch) {
-    numpad->type(ch);
+  bool type(int ch, MEVENT* mevent = nullptr) {
+    numpad->type(ch, mevent);
     //UIButton* b = (UIButton*) numpad->getFocusedWidget();
     //if(b) {
     //  b->draw();
@@ -87,7 +87,14 @@ int main(int argc, char** argv) {
       std::cerr << "Escape key pressed! Exiting..." << std::endl;
       break;
     }
-    calc.type(ch);
+
+    // Pass mouse events
+    MEVENT mevent;
+    if (getmouse(&mevent) == OK) {
+      calc.type(ch, &mevent);
+    } else {
+      calc.type(ch);
+    }
   }
 
   // Tear down

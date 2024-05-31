@@ -100,7 +100,7 @@ class UIWidget {
   }
 
   // Recieves a character. Return true from this function if the character was processed, or false otherwise
-  virtual bool type(key_t c) {
+  virtual bool type(key_t c, MEVENT* mevent = nullptr) {
     return false;
   }
 

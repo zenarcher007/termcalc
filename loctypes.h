@@ -13,7 +13,7 @@ class Point {
 
   // COUT operator overload
   friend std::ostream& operator<< (std::ostream& out, const Point &p) {
-    out << "<Point: (" << p.row << ", " << p.col << ")>";
+    out << "Point(row=" << p.row << ", col=" << p.col << ")";
     return out;
   }
 
@@ -33,7 +33,7 @@ class Size {
 
   // COUT operator overload
   friend std::ostream& operator<< (std::ostream& out, const Size &p) {
-    out << "<Size: (" << p.rows << ", " << p.cols << ")>";
+    out << "Size(rows=" << p.rows << ", cols=" << p.cols << ")";
     return out;
   }
 
@@ -56,7 +56,7 @@ class Box {
 
   // COUT operator overload
   friend std::ostream& operator<<  (std::ostream& out, const Box &b) {
-    out << "<Box: (" << b.row0 << ", " << b.col0 << ") -> (" << b.rows << ", " << b.cols << ")>";
+    out << "Box(row0=" << b.row0 << ", col0=" << b.col0 << ") -> (rows=" << b.rows << ", cols=" << b.cols << ")";
     return out;
    }
 
