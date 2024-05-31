@@ -8,29 +8,55 @@
 #include "widgetarray.h"
 #include "focustracker.h"
 #include <atomic>
+#include <unistd.h>
 
 using namespace termcalc;
 
-
+// Please note that all Points and Sizes, etc are in "Rows,Cols" to match with the odd way Curses does it!
 class Calculator {
   private:
-    WidgetArray widgets;
+  std::unique_ptr<WidgetArray> numpad;
+
+  // Creates buttons 1-9
+  std::unique_ptr<WidgetArray> initButtons(Point leftCorner, Size buttonSize) {
+    std::unique_ptr<WidgetArray> wa = std::make_unique<WidgetArray>("Numpad", Size(3, 3));
+    int num = 0;
+    for (int row = 0; row < 3; ++row) {
+      for (int col = 0; col < 3; ++col) {
+        std::shared_ptr<UIWidget> ptr(new UIButton(std::to_string(++num).c_str()));
+        wa->addWidgetAtPoint(Point(row, col), ptr);
+        ptr->initWindow(Box(Point(row*buttonSize.rows, col*buttonSize.cols), buttonSize)); // Use constructor Box(Point, Size)
+        //ptr->draw();
+      }
+    }
+    return wa;
+  }
+
   public:
 
-  void type(int ch) {
-
+  bool type(int ch) {
+    numpad->type(ch);
+    //UIButton* b = (UIButton*) numpad->getFocusedWidget();
+    //if(b) {
+    //  b->draw();
+    //}
+    return false;
   }
 
-  Calculator(): widgets(WidgetArray("MainButtons", Size(5, 5))) { // Rows, Cols
-    
+  Calculator() { // Rows, Cols
+    numpad = initButtons(Point(8, 0), Size(3, 3)); // Rows, Cols
   }
 
+  void draw() {
+    numpad->draw();
+  }
 
 };
 
 int main(int argc, char** argv) {
 
-  initscr();
+  WINDOW* stdscr = initscr();
+  wrefresh(stdscr);
   // Create a thread barrier and block it to ensure initscr() isn't called after the other functions
   // For some reason, without this, compiler optimization causes the program to crash!!!!!!!!!
   std::atomic_flag lock = ATOMIC_FLAG_INIT;
@@ -39,26 +65,30 @@ int main(int argc, char** argv) {
   curs_set(0); // Disable automatic displayed cursor
   noecho(); // Disable automatic character echoing
   keypad(stdscr, TRUE); // Enable keypad mode
+  mousemask(ALL_MOUSE_EVENTS, NULL); // Set up mouse events
 
-  
-  UIWidget r;
-  std::cout << "F" << std::endl;
-  r.initWindow(Box(1,10,10,10));
-  std::cout << "r" << std::endl;
-  key_t ch = getch();
-  std::cout << ch << std::endl;
+  // Initialize colors
+  if (has_colors()) {
+    start_color();
+    use_default_colors();
+  }
 
   // Get size of the terminal
   int rows, cols;
   getmaxyx(stdscr, rows, cols);
-  
-  // Initialize colors
-  /*if (has_colors()) {
-    start_color();
-    use_default_colors();
-  }*/
 
-  std::cout << rows << ", " << cols;
+  Calculator calc;
+  calc.draw();
+  
+  while(true) {
+    key_t ch = getch();
+    // escape key
+    if(ch == 27) { // Escape key
+      std::cerr << "Escape key pressed! Exiting..." << std::endl;
+      break;
+    }
+    calc.type(ch);
+  }
 
   // Tear down
   echo();

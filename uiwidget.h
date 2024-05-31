@@ -8,13 +8,13 @@
 
 class UIWidget {
   private:
-  std::string name;
-  WINDOW *window;
   bool highlighted;
   Box dims;
 
   public:
-  
+  std::string name;
+  WINDOW *window;
+
   UIWidget(std::string name) {
     this->name = name;
   }
@@ -30,11 +30,12 @@ class UIWidget {
     }
   }
 
-  // Initializes a window if not already. If this is not already initialized, the behavior of several other functions is undefined,
+  // Initializes a window. If already initialized, re-initializes it.
+  // If this is not already initialized, the behavior of improperly-checked functions that use this may be undefined,
   // while many getters will return null.
-  void initWindow(Box b) {
+  virtual void initWindow(Box b) {
     if (window != nullptr) {
-      return;
+      delwin(window);
     }
     
     window = newwin(b.rows, b.cols, b.row0, b.col0);
@@ -42,7 +43,7 @@ class UIWidget {
     wrefresh(window);
   }
 
-  void refresh() {
+  virtual void draw() {
     wrefresh(window);
   }
 
@@ -66,7 +67,6 @@ class UIWidget {
     // Restore the cursor position
     wmove(window, cur_y, cur_x);
     highlighted = true;
-    refresh();
   }
 
   // Undo the highlighting from highlightAll
@@ -80,12 +80,19 @@ class UIWidget {
     for (int row = 0; row < dims.rows; row++) {
       // Move to the start of each row and
       // change attributes for the entire row
-      mvwchgat(window, row, 0, -1, A_REVERSE, 1, NULL);
+      mvwchgat(window, row, 0, -1, A_NORMAL, 0, NULL);
     }
     // Restore the cursor position
     wmove(window, cur_y, cur_x);
     highlighted = false;
-    refresh();
+  }
+
+  virtual void onFocusEnter() {
+    highlightAll();
+  }
+
+  virtual void onFocusExit()  {
+    unhighlightAll();
   }
 
   std::string getName() { 

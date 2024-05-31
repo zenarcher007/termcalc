@@ -61,14 +61,25 @@ class FocusTracker: public UIWidget {
     keyMap[name].insert(std::pair<key_t, std::string>(keypress, adjName));
   }
 
+  // Calls onFocusExit on the currently selected widget, then selects a new widget.
   void select(std::string name) {
     focus = name;
+    if(focusedWidget != nullptr) {
+      focusedWidget->onFocusExit();
+    }
     focusedWidget = getWidget(name);
+    if(focusedWidget == nullptr)  {
+      throw std::runtime_error("No such widget: " + name);
+    }
+    focusedWidget->onFocusEnter();
   }
 
   // Passes the keypresses to the currently selected widget. If the widget returns true, the keypress is consumed and no other widgets will be notified of it.
   // If the widget returns false, then the keypress attempts to activate the next widget in the adjacency list if an ajacency is specified for that keypress
   bool type(key_t c) {
+
+
+
     if(! focusedWidget->type(c)) {
       auto it = keyMap[focus].find(c);
       if (it != keyMap[focus].end()) {
@@ -78,6 +89,14 @@ class FocusTracker: public UIWidget {
       return false;
     }
     return true;
+  }
+  
+  // Redraws all widgets in the map
+  void draw() {
+    for(auto it : widgetMap) {
+      it.second->draw();
+    }
+    UIWidget::draw();
   }
 
 };

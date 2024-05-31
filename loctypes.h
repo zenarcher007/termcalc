@@ -60,7 +60,12 @@ class Box {
     return out;
    }
 
+  // Constructor that accepts raw data
   Box(int row0, int col0, int rows, int cols): row0(row0), col0(col0), rows(rows), cols(cols) {
+  }
+
+  // Constructor that accepts a Point and a Size
+  Box(Point pt, Size sz): row0(pt.row), col0(pt.col), rows(sz.rows), cols(sz.cols)  {
   }
 };
 
