@@ -12,7 +12,7 @@
 #include <string>
 #include <cstring>
 #include <assert.h>
-#include <format>
+#include <sstream>
 class WidgetArray: public FocusTracker {
   private:
   UIWidget** widgets;
@@ -36,7 +36,9 @@ class WidgetArray: public FocusTracker {
   // Inherits the widget given by the uniqe pointer. Note: assumes ownership of the unique_ptr!
   void addWidgetAtPoint(Point p, std::shared_ptr<UIWidget> &widget) {
     if(isOutOfBounds(p, dims))  {
-      throw std::out_of_range(std::format("addWidgetAtPoint(): Point ({}, {}) is out of bounds", p.col, p.row));
+      std::ostringstream oss;
+      oss << "addWidgetAtPoint(): Point (" << p.col << "," << p.row << ") is out of bounds";
+      throw std::out_of_range(oss.str());
     }
     
     widgets[p.row * dims.cols + p.col] = (UIWidget*) widget.get();
@@ -83,7 +85,9 @@ class WidgetArray: public FocusTracker {
   void selectAtPoint(Point p) {
     UIWidget* w = getWidgetAtPoint(p);
     if(w == nullptr) {
-      throw std::runtime_error(std::format("No widget at location ({}, {})", p.col, p.row));
+      std::ostringstream oss;
+      oss << "No widget at location (" << p.col << ", " << p.row << ")";
+      throw std::runtime_error(oss.str());
     }
     std::string name = w->getName();
     FocusTracker::select(name);
@@ -92,7 +96,9 @@ class WidgetArray: public FocusTracker {
   // Gets the widget at the point. Returns nullptr if there is no widget at that point
   UIWidget* getWidgetAtPoint(Point p) {
     if(isOutOfBounds(p, dims))  {
-      throw std::out_of_range(std::format("getWidgetAtPoint() (possibly called by selectAtPoint): Point ({}, {}) is out of bounds", p.col, p.row));
+      std::ostringstream oss;
+      oss << "getWidgetAtPoint() (possibly called by selectAtPoint): Point (" << p.col << ", " << p.row << ") is out of bounds";
+      throw std::runtime_error(oss.str());
     }
     return widgets[p.row * dims.cols + p.col];
   }
