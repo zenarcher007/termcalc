@@ -5,6 +5,7 @@
 #include <string>
 #include <ncurses.h>
 #include "loctypes.h"
+#include <sys/types.h>
 
 class UIWidget {
   private:

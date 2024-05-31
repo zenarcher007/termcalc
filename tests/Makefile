@@ -9,12 +9,12 @@ BUILDDIR = build
 DEBUGDIR = build
 
 # Header search paths
-SYSTEM_HEADERS = /usr/local/include
 HEADERS = 
 
-CV_FLAGS = -Wno-unused-value -Wno-c++11-extensions -lncurses
-COMPILER = clang++
-CFLAGS = --system-header-prefix=$(SYSTEM_HEADERS) $(HEADERS) -std=c++20 $(CV_FLAGS)
+CV_FLAGS = -Wno-unused-value -Wno-c++11-extensions -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses)
+COMPILER := $(shell if command -v clang++ >/dev/null 2>&1; then echo clang++; else echo g++; fi)
+#COMPILER = clang++
+CFLAGS = $(HEADERS) -std=c++20 $(CV_FLAGS)
 DFLAGS = $(CFLAGS) -gdwarf-4 -g3
 LAUNCHARGS = 
 RM = rm -rf
@@ -42,7 +42,7 @@ build: $(SOURCES)
 	mkdir -p "$(BUILDDIR)"
 	for source in $^; do \
 		outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
-		"$(COMPILER)" $(RFLAGS) "$$source" -o "$$outfile" ; \
+		"$(COMPILER)" "$$source" -o "$$outfile" $(RFLAGS); \
 	done
 #for source in $(SOURCES); do \
 #  outfile="$(BUILDDIR)/$$(basename "$$source" | cut -d '.' -f1)" ; \
