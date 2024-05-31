@@ -11,7 +11,7 @@ class UIButton: public UIWidget {
 
   // Override type() of UIWidget
   virtual bool type(key_t ch, MEVENT* mevent = nullptr) {
-    if(ch == KEY_ENTER || (ch == KEY_MOUSE && mevent && mevent->bstate == BUTTON1_PRESSED)) {
+    if(ch == KEY_ENTER || (ch == KEY_MOUSE && mevent && (mevent->bstate == BUTTON1_PRESSED || mevent->bstate == BUTTON1_CLICKED) )) {
 
       return true;
     }

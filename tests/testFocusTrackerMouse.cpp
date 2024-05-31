@@ -42,22 +42,22 @@ void testMouseEventSelectsButton() {
   
   int buttonIteration = 0;
   for(Point startPoint : startPoints) {
-    std::cout << "  Testing button selection 1->" << expectedWidgetNames[buttonIteration] << "... Clicking at: ";
+    std::cout << "  Testing button selection 1->" << expectedWidgetNames[buttonIteration] << std::endl; // << "... Clicking at: ";
     Point pt;
     for  (pt.row = startPoint.row; pt.row < startPoint.row+3; ++pt.row) {
       for  (pt.col = startPoint.col; pt.col < startPoint.col+3; ++pt.col) {
-        std::cout << pt << ", ";
+        //std::cout << pt << ", ";
         std::unique_ptr<WidgetArray> wa = initButtons(Point(0, 0), Size(3, 3));
         assert(wa->getFocusedWidget()->getName() == "1");
         MEVENT mevent;
         mevent.x = pt.col;
         mevent.y = pt.row;
-        mevent.bstate = 1;
-        assert(wa->type(BUTTON1_CLICKED, &mevent) == true);
+        mevent.bstate = BUTTON1_PRESSED;
+        assert(wa->type(KEY_MOUSE, &mevent) == true); // Assert that the button handled the event
         assert(wa->getFocusedWidget()->getName() == expectedWidgetNames[buttonIteration]);
       }
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
     ++buttonIteration;
   }
 }
@@ -77,7 +77,7 @@ void testUnhandledMouseEventDoesNotSelectButton() {
 int main() {
   std::cout << "testMouseEventSelectsButton()..." << std::endl;
   testMouseEventSelectsButton();
-  std::cout << "\nPassed!" << std::endl;
+  std::cout << "Passed!" << std::endl;
 
   std::cout <<  "testUnhandledMouseEventDoesNotSelectButton()... ";
   testUnhandledMouseEventDoesNotSelectButton();
