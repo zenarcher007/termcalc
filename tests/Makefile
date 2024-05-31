@@ -50,6 +50,8 @@ build: $(SOURCES)
 #done | parallel
 
 
+# Set shell for "run" task
+run: SHELL:=/bin/bash
 run:
 	$(info ===== Running Tests On Last (or current) Compilation ===== )
 	@echo "\n\n===== Running Tests On Last (or current) Compilation at $$(date) =====" >> tests.log
