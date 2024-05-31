@@ -4,6 +4,7 @@
 #include "uiwidget.h"
 #include <iostream>
 #include <string>
+#include <cstring>
 
 class UIButton: public UIWidget {
   private:
@@ -24,7 +25,7 @@ class UIButton: public UIWidget {
   }
 
   virtual void draw() {
-    int len = strlen(name.c_str());
+    int len = std::strlen(name.c_str());
     Box d = getDims();
     int textRows = len / d.rows;
     int textCols = len;
