@@ -63,11 +63,26 @@ void testSwitchAdjacencyFromMiddle() {
  
 }
 
+void testButtonPassthrough() {
+  WidgetArray wa = initButtons();
+  Point p(1,1);
+  wa.selectAtPoint(p);
+  UIButton* b = (UIButton*) wa.getFocusedWidget();
+  assert(b->getName() == "5");
+  assert(wa.type('a') == false); // As there is no adjacency mapped to 'a', the keypress should be passed through to the button, which returns false
+  assert(wa.type(KEY_UP) == true);
+  UIButton* newFocused = (UIButton*) wa.getFocusedWidget();
+  assert(newFocused->getName() == "2");
 
+}
 
 int main() {
-  //std::cout << "testSwitchAdjacencyFromMiddle... ";
+  std::cout << "testSwitchAdjacencyFromMiddle... ";
   testSwitchAdjacencyFromMiddle();
+  std::cout << "Passed!" << std::endl;
+
+  std::cout << "testButtonPassthrough... ";
+  testButtonPassthrough();
   std::cout << "Passed!" << std::endl;
   return 0;
 }
