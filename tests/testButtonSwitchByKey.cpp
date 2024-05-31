@@ -70,6 +70,8 @@ void testButtonPassthrough() {
   UIButton* b = (UIButton*) wa.getFocusedWidget();
   assert(b->getName() == "5");
   assert(wa.type('a') == false); // As there is no adjacency mapped to 'a', the keypress should be passed through to the button, which returns false
+  UIButton* middleFocused = (UIButton*) wa.getFocusedWidget();
+  assert(middleFocused->getName() == "5");
   assert(wa.type(KEY_UP) == true);
   UIButton* newFocused = (UIButton*) wa.getFocusedWidget();
   assert(newFocused->getName() == "2");
