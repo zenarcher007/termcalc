@@ -74,8 +74,6 @@ class FocusTracker: public UIWidget {
     focusedWidget->onFocusEnter();
   }
 
-  // Passes the keypresses to the currently selected widget. If the widget returns true, the keypress is consumed and no other widgets will be notified of it.
-  // If the widget returns false, then the keypress attempts to activate the next widget in the adjacency list if an ajacency is specified for that keypress
   bool type(key_t c, MEVENT* mevent = nullptr) {
     // On mouse press event, get the current mouse coordinates. Then, loop through all widgets and see if the mouse is inside the
     // Box from getDims() for any widget. If so, then select that widget, pass the keypress to the widget, and return true to indicate that the keypress was consumed.
@@ -83,9 +81,11 @@ class FocusTracker: public UIWidget {
       if (mevent->bstate & ALL_MOUSE_EVENTS) {
         for(auto it = widgetMap.begin(); it != widgetMap.end(); ++it)  {
           auto dims  = it->second->getDims();
-          if (mevent->x >= dims.col0 && mevent->y >= dims.row0 && mevent->x <= dims.cols && mevent->y <= dims.rows)  {
+          if (mevent->x >= dims.col0 && mevent->y >= dims.row0 && mevent->x < dims.col0+dims.cols && mevent->y < dims.row0+dims.rows)  {
             //std::cout << mevent->x << ", " << mevent->y << std::endl;
-            if(it->second->type(c)) { // If the widget handles the mouse press, select it
+            //std::cout << it->first << std::endl;
+            if(it->second->type(c, mevent)) { // If the widget handles the mouse press, select it
+              //std::cout << it->first << std::endl;
               select(it->first);
               return true;
             }
@@ -95,7 +95,8 @@ class FocusTracker: public UIWidget {
       }
     }
 
-
+    // Passes the keypresses to the currently selected widget. If the widget returns true, the keypress is consumed and no other widgets will be notified of it.
+    // If the widget returns false, then the keypress attempts to activate the next widget in the adjacency list if an ajacency is specified for that keypress
     if(! focusedWidget->type(c)) {
       auto it = keyMap[focus].find(c);
       if (it != keyMap[focus].end()) {

@@ -23,6 +23,8 @@ std::unique_ptr<WidgetArray> initButtons(Point leftCorner, Size buttonSize) {
   return wa;
 }
 
+// This is a general systems test, to check that in general, clicking another button will select that button
+// (widgets that handle the mouse event will be selected)
 void testMouseEventSelectsButton() {
   // The left corner of each widget. We will click all cells in each widget one by one, starting at this corner.
   Point startPoints[9];
@@ -60,6 +62,7 @@ void testMouseEventSelectsButton() {
   }
 }
 
+// Ensures that widgets that do not handle the mouse event are not selected.
 void testUnhandledMouseEventDoesNotSelectButton() {
   std::unique_ptr<WidgetArray> wa = initButtons(Point(0, 0), Size(3, 3));
   MEVENT mevent;

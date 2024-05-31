@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
   curs_set(0); // Disable automatic displayed cursor
   noecho(); // Disable automatic character echoing
   keypad(stdscr, TRUE); // Enable keypad mode
-  mousemask(ALL_MOUSE_EVENTS, NULL); // Set up mouse events
+  mousemask(BUTTON1_PRESSED | BUTTON2_PRESSED, NULL); // Set up mouse events
 
   // Initialize colors
   if (has_colors()) {
