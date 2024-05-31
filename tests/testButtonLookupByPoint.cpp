@@ -67,7 +67,7 @@ void testOutOfBounds() {
   std::shared_ptr<UIWidget> ptr4(new UIButton("4"));
   ba.addWidgetAtPoint(Point(1, 1), ptr4);
   
-  std::array expectedPoints{Point(-1, -1), Point(-1, 0), Point(-1, 1),
+  Point expectedPoints[]{Point(-1, -1), Point(-1, 0), Point(-1, 1),
                             Point(-1, 2), Point(0, -1), Point(0, 3),
                             Point(1, -1), Point(1, 3), Point(2, -1),
                             Point(2, 3), Point(3, -1), Point(3, 0) };
