@@ -25,6 +25,7 @@ class UIButton: public UIWidget {
   }
 
   virtual void draw() {
+    if(window == nullptr) return;
     int len = std::strlen(name.c_str());
     Box d = getDims();
     int textRows = len / d.rows;
@@ -35,12 +36,14 @@ class UIButton: public UIWidget {
   }
 
   virtual void onFocusEnter() {
+    if(window == nullptr) return;
     wattron(window, COLOR_PAIR(1));
     highlightAll();
     draw();
   }
 
   virtual void onFocusExit() {
+    if(window == nullptr) return;
     wattroff(window, COLOR_PAIR(1));
     unhighlightAll();
     draw();
