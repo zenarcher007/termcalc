@@ -17,5 +17,5 @@ jobs:
         run: docker build -t termcalc --progress=plain .
         #make test
       - name: Test OS / Compiler compatibility
-        run: cd CompatibilityTests && ./run_tests.sh
+        run: cd CompatibilityTests && ./runtests.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."
