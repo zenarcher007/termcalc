@@ -12,6 +12,9 @@ set -e
 # is deleted upon build. For example, if the current compiler to test is "clang++", the $(which "g++") compiler is deleted.
 # Note that system assumes that only two compilers "exist in the world". It is likely imperfect but this works.
 
+PROJ_ROOT="../"
+cd "$PROJ_ROOT" || exit
+
 if [[ -z "$DOCKER" ]]; then
   DOCKER="docker"
 fi
@@ -24,7 +27,7 @@ function master_test() {
     echo  "  > Base image for $OS already exists, skipping build."
   else
     echo  "  > Building base image... "
-    $DOCKER  build  -t  "test_termcalc_base_$OS"  --build-arg OS="$OS"  --build-arg TERM="$TERM"  --build-arg COMPILER="$COMPILER"  --build-arg CPPSTANDARD="$CPPSTANDARD"  -f  "Dockerfile.base_$OS" .
+    $DOCKER  build  -t  "test_termcalc_base_$OS"  --build-arg OS="$OS"  --build-arg TERM="$TERM"  --build-arg COMPILER="$COMPILER"  --build-arg CPPSTANDARD="$CPPSTANDARD"  -f  "CompatibilityTests/Dockerfile.base_$OS" .
     if [[  "$?"  != 0 ]]; then
       echo  >&2  "ERROR: Failed to build base image for OS: $OS, TERM: $TERM, COMPILER: $COMPILER, CPPSTANDARD: $CPPSTANDARD"
       exit  1
@@ -36,7 +39,7 @@ function master_test() {
   mkdir -p "/tmp/termcalc_docker_build_logs"
   dirId="os_$OS_term_$TERM_compiler_$COMPILER_std_$CPPSTANDARD_$(uuidgen)"
   opposite_compiler="$(if [ "${COMPILER}" = "clang++" ]; then echo g++; else echo clang++; fi)"
-  $DOCKER build -f "Dockerfile.$OS" -t "test_termcalc_build_$(tr '[:upper:]' '[:lower:]' <<< "$OS")" . --build-arg OPPOSITE_COMPILER="$opposite_compiler" --build-arg TERM="$TERM" --build-arg COMPILER="$COMPILER" --build-arg CPPSTANDARD="$CPPSTANDARD" &>"/tmp/termcalc_docker_build_logs/$dirId.log" && echo "IMAGE BUILT SUCCESSFULLY!"
+  $DOCKER build -f "CompatibilityTests/Dockerfile.$OS" -t "test_termcalc_build_$(tr '[:upper:]' '[:lower:]' <<< "$OS")" . --build-arg OPPOSITE_COMPILER="$opposite_compiler" --build-arg TERM="$TERM" --build-arg COMPILER="$COMPILER" --build-arg CPPSTANDARD="$CPPSTANDARD" &>"/tmp/termcalc_docker_build_logs/$dirId.log" && echo "IMAGE BUILT SUCCESSFULLY!"
   if [[ $? -ne 0 ]]; then
     echo "TEST FAILED! Here are the logs:"
     cat "/tmp/termcalc_docker_build_logs/$dirId.log"
@@ -46,7 +49,7 @@ function master_test() {
 }
 export -f master_test
 
-$DOCKER run -i --rm -v ./:/var/pict:Z pict pictmodel.txt 2>&1 | tail +2 | while IFS= read -r line; do
+$DOCKER run -i --rm -v ./:/var/pict:Z pict CompatibilityTests/pictmodel.txt 2>&1 | tail +2 | while IFS= read -r line; do
   # https://stackoverflow.com/a/11003457
   xargs -I {} bash -c 'master_test $@' _ {} <<< "$line"
 done

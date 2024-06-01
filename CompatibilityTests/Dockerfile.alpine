@@ -8,7 +8,6 @@ ENV COMPILER=${COMPILER}
 ENV OPPOSITE_COMPILER=${OPPOSITE_COMPILER}
 ENV TERM=${TERM}
 ENV CPPSTANDARD=${CPPSTANDARD}
-RUN apk add $(echo ${COMPILER} | tr -d '+')
 
 # Delete the "opposite" compiler from the base image
 RUN rm -f "$(which "$OPPOSITE_COMPILER")"

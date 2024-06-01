@@ -13,7 +13,7 @@ ENV CPPSTANDARD=${CPPSTANDARD}
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt install -y $(echo ${COMPILER} | tr -d '+')
+#RUN /bin/bash -c 'ln -sf /usr/lib/llvm-*/lib/LLVMgold.so /usr/local/lib/LLVMgold.so'
 
 # Delete the "opposite" compiler from the base image
 RUN rm -f "$(which "$OPPOSITE_COMPILER")"
@@ -26,9 +26,9 @@ RUN useradd -ms /bin/bash termcalc
 USER termcalc
 WORKDIR /home/termcalc
 
-COPY --chown=termcalc:termcalc ../ ./termcalc
+COPY --chown=termcalc:termcalc . ./termcalc
 WORKDIR /home/termcalc/termcalc
 
-RUN make clean && touch termcalc.cpp && make test release
+RUN make clean && touch termcalc.cpp && make CPPSTANDARD="${CPPSTANDARD}" COMPILER="${COMPILER}" test release
 
 ENTRYPOINT [ "/home/termcalc/termcalc/release/termcalc" ]
