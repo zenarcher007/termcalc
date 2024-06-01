@@ -19,8 +19,7 @@ if [[ -z "$DOCKER_CMD" ]]; then
   DOCKER_CMD="docker"
 fi
 echo "Using docker command: $DOCKER_CMD"
-$DOCKER_CMD ps
-$DOCKER_CMD images
+$DOCKER_CMD image ls
 function master_test() {
   OS="$1"; TERM="$2"; COMPILER="$3"; CPPSTANDARD="$4"
   # Check if base image currently exists:
@@ -29,7 +28,7 @@ function master_test() {
     echo  "  > Base image for $OS already exists, skipping build."
   else
     echo  "  > Building base image... "
-    $DOCKER_CMD  build  -t  "test_termcalc_base_$OS"  --build-arg OS="$OS"  --build-arg TERM="$TERM"  --build-arg COMPILER="$COMPILER"  --build-arg CPPSTANDARD="$CPPSTANDARD"  $EXTRA_DOCKER_BUILD_ARGS -f  "CompatibilityTests/Dockerfile.base_$OS" .
+    $DOCKER_CMD buildx build  -t  "test_termcalc_base_$OS"  --build-arg OS="$OS"  --build-arg TERM="$TERM"  --build-arg COMPILER="$COMPILER"  --build-arg CPPSTANDARD="$CPPSTANDARD"  $EXTRA_DOCKER_BUILD_ARGS -f  "CompatibilityTests/Dockerfile.base_$OS" .
     if [[  "$?"  != 0 ]]; then
       echo  >&2  "ERROR: Failed to build base image for OS: $OS, TERM: $TERM, COMPILER: $COMPILER, CPPSTANDARD: $CPPSTANDARD"
       exit  1
