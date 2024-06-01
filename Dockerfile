@@ -16,7 +16,7 @@ USER termcalc
 
 COPY --chown=termcalc:termcalc . /home/termcalc/termcalc
 WORKDIR /home/termcalc/termcalc
-RUN make clean && touch termcalc.cpp && make test release
+RUN make clean && make test && touch termcalc.cpp && make release
 #RUN make release && touch termcalc.cpp && make clean release
 
 ENTRYPOINT ["/home/termcalc/termcalc/release/termcalc"]

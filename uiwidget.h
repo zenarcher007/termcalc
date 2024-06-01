@@ -47,6 +47,13 @@ class UIWidget {
     wrefresh(window);
   }
 
+  // Calls delwin, but preserves the last saved dimensions.
+  virtual void killWindow() {
+    if(window != nullptr)  {
+      delwin(window);
+    }
+  }
+
   virtual void draw() {
     wrefresh(window);
   }

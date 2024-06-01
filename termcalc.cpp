@@ -7,6 +7,8 @@
 #include "loctypes.h"
 #include "widgetarray.h"
 #include "focustracker.h"
+#include "uiconsole.h"
+#include <functional>
 #include <atomic>
 #include <unistd.h>
 
@@ -16,23 +18,37 @@ using namespace termcalc;
 class Calculator {
   private:
   std::unique_ptr<WidgetArray> numpad;
+  std::unique_ptr<UIConsole> console;
+
+  bool buttonCallback(std::string buttonName) {
+    bool retVal = true;
+    for(key_t ch : buttonName) {
+      if(!console->type(ch)) // If any failed
+        retVal = false;
+    }
+    console->draw();
+    return retVal;
+  }
 
   // Creates buttons 1-9
   std::unique_ptr<WidgetArray> initButtons(Point leftCorner, Size buttonSize) {
+    
     std::unique_ptr<WidgetArray> wa = std::make_unique<WidgetArray>("Numpad", Size(3, 3));
     int num = 0;
     for (int row = 0; row < 3; ++row) {
       for (int col = 0; col < 3; ++col) {
-        std::shared_ptr<UIWidget> ptr(new UIButton(std::to_string(++num).c_str()));
-        wa->addWidgetAtPoint(Point(row, col), ptr);
-        ptr->initWindow(Box(Point(row*buttonSize.rows, col*buttonSize.cols), buttonSize)); // Use constructor Box(Point, Size)
+        std::shared_ptr<UIWidget> button(new UIButton(std::to_string(++num).c_str()));
+        std::function<bool(std::string)> callbackFunc = std::bind(&Calculator::buttonCallback, this, std::placeholders::_1);
+        ((UIButton*) button.get())->setActivatorCallback(callbackFunc);
+        wa->addWidgetAtPoint(Point(row, col), button);
+        button->initWindow(Box(Point(leftCorner.row + row*buttonSize.rows, leftCorner.col + col*buttonSize.cols), buttonSize)); // Use constructor Box(Point, Size)
         //ptr->draw();
       }
     }
     return wa;
   }
-
-  public:
+public:
+  
 
   bool type(int ch, MEVENT* mevent = nullptr) {
     numpad->type(ch, mevent);
@@ -44,7 +60,9 @@ class Calculator {
   }
 
   Calculator() { // Rows, Cols
-    numpad = initButtons(Point(8, 0), Size(3, 3)); // Rows, Cols
+    console = std::make_unique<UIConsole>("Console");
+    console->initWindow(Box(Point(0, 0), Size(10, 25)));
+    numpad = initButtons(Point(10, 0), Size(3, 3)); // Rows, Cols
   }
 
   void draw() {

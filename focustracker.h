@@ -57,6 +57,22 @@ class FocusTracker: public UIWidget {
     return focusedWidget;
   }
 
+  // Pass onFocusEnter to currently focused widget
+  void onFocusEnter() {
+    UIWidget* w = getFocusedWidget();
+    if(w != nullptr) {
+      w->onFocusEnter();
+    }
+  }
+
+  // Pass onFocusExit to currently focused widget
+  void onFocusExit()  {
+    UIWidget* w = getFocusedWidget();
+    if(w != nullptr)  {
+      w->onFocusExit();
+     }
+   }
+
   // Adds a rule for which given that a current widget is selected, pressing a given key will select another widget.
   void add_adjacency(std::string name, std::string adjName, key_t keypress) {
     keyMap[name].insert(std::pair<key_t, std::string>(keypress, adjName));

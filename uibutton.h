@@ -5,15 +5,29 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <functional>
 
 class UIButton: public UIWidget {
   private:
+    // Pointer to a boolean function that accepts a std::string argument
+    //bool (*activatorCallback)(std::string);
+    std::function<bool(std::string)> activatorCallback;
   public:
+
+  UIButton(std::string name): UIWidget(name) {
+    activatorCallback = nullptr;
+  }
+
+  // Sets the callback function when this button is activated. Thus function must accept a std::string argument and return a bool
+  void setActivatorCallback(std::function<bool(std::string)> callback) {
+    activatorCallback = callback;
+  }
 
   // Override type() of UIWidget
   virtual bool type(key_t ch, MEVENT* mevent = nullptr) {
-    if(ch == KEY_ENTER || (ch == KEY_MOUSE && mevent && (mevent->bstate == BUTTON1_PRESSED || mevent->bstate == BUTTON1_CLICKED) )) {
-
+    if(ch == 10 || ch == KEY_ENTER || (ch == KEY_MOUSE && mevent && (mevent->bstate == BUTTON1_PRESSED || mevent->bstate == BUTTON1_CLICKED) )) {
+      if(activatorCallback != nullptr)
+        return activatorCallback(name);
       return true;
     }
     return false;
@@ -51,8 +65,6 @@ class UIButton: public UIWidget {
   }
 
 
-  UIButton(std::string name): UIWidget(name) {
-  }
 };
 
 #endif
