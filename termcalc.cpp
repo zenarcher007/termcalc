@@ -33,7 +33,7 @@ class Calculator {
   // Creates buttons 1-9
   std::unique_ptr<WidgetArray> initButtons(Point leftCorner, Size buttonSize) {
     
-    std::unique_ptr<WidgetArray> wa = std::make_unique<WidgetArray>("Numpad", Size(3, 3));
+    std::unique_ptr<WidgetArray> wa = std::make_unique<WidgetArray>("Numpad", Size(4, 4));
     int num = 0;
     for (int row = 0; row < 3; ++row) {
       for (int col = 0; col < 3; ++col) {
@@ -44,9 +44,20 @@ class Calculator {
         button->initWindow(Box(Point(leftCorner.row + row*buttonSize.rows, leftCorner.col + col*buttonSize.cols), buttonSize)); // Use constructor Box(Point, Size)
         //ptr->draw();
       }
+
+      std::string buttonNames[7] = {"*", "/", "+", "-", ",", ".", "%"};
+      Point locations[7] = {Point(0, 3), Point(1, 3), Point(2, 3), Point(3,3), Point(3, 0), Point(3, 1), Point(3, 2)};
+      for(int i = 0; i < 7; ++i) {
+        std::shared_ptr<UIWidget> button(new UIButton(buttonNames[i]));
+        std::function<bool(std::string)> callbackFunc = std::bind(&Calculator::buttonCallback, this, std::placeholders::_1);
+        ((UIButton*) button.get())->setActivatorCallback(callbackFunc);
+        wa->addWidgetAtPoint(locations[i], button);
+        button->initWindow(Box(Point(leftCorner.row + locations[i].row*buttonSize.rows, leftCorner.col + locations[i].col*buttonSize.cols), buttonSize)); // Use constructor Box(Point, Size)
+      }
     }
     return wa;
   }
+
 public:
   
 
