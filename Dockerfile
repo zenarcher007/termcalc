@@ -2,13 +2,13 @@ FROM alpine as builder
 
 # Install make, c++ tools, etc
 RUN apk update && apk add --no-cache \
-    build-base \
     linux-headers \
     bash \
     ncurses-dev \
     ncurses-libs \
     make \
-    clang
+    clang \
+    parallel
 
 # Add user / group: https://stackoverflow.com/a/49955098
 RUN addgroup -S termcalc && adduser -S termcalc -G termcalc

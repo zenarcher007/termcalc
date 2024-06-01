@@ -21,7 +21,7 @@ class UIButton: public UIWidget {
 
   virtual void initWindow(Box b) {
     UIWidget::initWindow(b);
-    unhighlightAll();
+    //unhighlightAll();
   }
 
   virtual void draw() {

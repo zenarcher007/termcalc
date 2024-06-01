@@ -12,7 +12,7 @@ CPPSTANDARD=c++20
 # Header search paths
 HEADERS = 
 
-CV_FLAGS = -Wno-unused-value -Wno-c++11-extensions -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses) -lncurses
+CV_FLAGS = -Wno-unused-value -Wno-c++11-extensions -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses)
 COMPILER := $(shell if command -v clang++ >/dev/null 2>&1; then echo clang++; else echo g++; fi)
 #COMPILER = clang++
 CFLAGS = $(HEADERS) -std=$(CPPSTANDARD) $(CV_FLAGS)

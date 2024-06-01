@@ -18,15 +18,18 @@ class UIWidget {
 
   UIWidget(std::string name) {
     this->name = name;
+    window = nullptr;
+    highlighted = false;
   }
 
   UIWidget() {
     name = "default";
+    window = nullptr;
+    highlighted = false;
   }
 
   ~UIWidget() {
     if(window != nullptr)  {
-      //delete window;
       delwin(window);
     }
   }

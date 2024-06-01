@@ -46,7 +46,6 @@ void testMouseEventSelectsButton() {
     Point pt;
     for  (pt.row = startPoint.row; pt.row < startPoint.row+3; ++pt.row) {
       for  (pt.col = startPoint.col; pt.col < startPoint.col+3; ++pt.col) {
-        //std::cout << pt << ", ";
         std::unique_ptr<WidgetArray> wa = initButtons(Point(0, 0), Size(3, 3));
         assert(wa->getFocusedWidget()->getName() == "1");
         MEVENT mevent;

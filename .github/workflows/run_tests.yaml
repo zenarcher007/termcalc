@@ -14,8 +14,7 @@ jobs:
           ls ${{ github.workspace }}
 
       - name: Run Unit Tests
-        run: docker build -t termcalc --progress=plain .
-        #make test
+        run: make test
       - name: Test OS / Compiler compatibility
         run: cd CompatibilityTests && ./runtests.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."
