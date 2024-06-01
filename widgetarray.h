@@ -26,9 +26,6 @@ class WidgetArray: public FocusTracker {
   WidgetArray(std::string name, Size s): FocusTracker(name) {
     widgets = new UIWidget*[s.rows * s.cols]{0};
     this->dims = s;
-    for(int i = 0; i < dims.rows * dims.cols; ++i) {
-      std::cout << widgets[i] << std::endl;
-    }
   }
 
   ~WidgetArray() {
