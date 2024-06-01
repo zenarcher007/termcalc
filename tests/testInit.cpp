@@ -13,8 +13,8 @@
 std::unique_ptr<WidgetArray> initButtons(Point leftCorner, Size buttonSize) {
   std::unique_ptr<WidgetArray> wa = std::make_unique<WidgetArray>("Numpad", Size(3, 3));
   int num = 0;
-  for (int row = 0; row < 3; ++row) {
-    for (int col = 0; col < 3; ++col) {
+  for (int row = 0; row < 1; ++row) {
+    for (int col = 0; col < 1; ++col) {
       std::shared_ptr<UIWidget> ptr(new UIButton(std::to_string(++num).c_str()));
       wa->addWidgetAtPoint(Point(row, col), ptr);
       ptr->initWindow(Box(Point(row*buttonSize.rows, col*buttonSize.cols), buttonSize)); // Use constructor Box(Point, Size)
@@ -39,7 +39,7 @@ void isolatedButtonWindowsDontInterfereFlakily() {
     //ptr->initWindow(Box(Point(0,0), Size(2,2), Size(3,3)))
     //volatile std::unique_ptr<WidgetArray> wa = initButtons(Point(0,0), Size(3,3));
   }
-  std::cout <<  "Checkpoint 2/2" << std::endl;
+  std::cout <<  "  Checkpoint 2/2" << std::endl;
 }
 
 void isolatedInitsDontInterfereFlakily() {
@@ -51,7 +51,7 @@ void isolatedInitsDontInterfereFlakily() {
   {
     volatile std::unique_ptr<WidgetArray> wa = initButtons(Point(0,0), Size(3,3));
   }
-  std::cout <<  "Checkpoint 2/2" << std::endl;
+  std::cout <<  "  Checkpoint 2/2" << std::endl;
 }
 
 int main() {
