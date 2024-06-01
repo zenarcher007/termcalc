@@ -12,5 +12,9 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: make test
+          
+      - name: Run Unit Tests
+        run: make test
+      - name: Test OS / Compiler compatibility
+        run: cd CompatibilityTests && ./run_tests.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."
