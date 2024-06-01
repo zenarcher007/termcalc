@@ -7,6 +7,7 @@ SRC_DIR = .
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 BUILDDIR = build
 DEBUGDIR = build
+CPPSTANDARD=c++20
 
 # Header search paths
 HEADERS = 
@@ -14,7 +15,7 @@ HEADERS =
 CV_FLAGS = -Wno-unused-value -Wno-c++11-extensions -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses)
 COMPILER := $(shell if command -v clang++ >/dev/null 2>&1; then echo clang++; else echo g++; fi)
 #COMPILER = clang++
-CFLAGS = $(HEADERS) -std=c++20 $(CV_FLAGS)
+CFLAGS = $(HEADERS) -std=$(CPPSTANDARD) $(CV_FLAGS)
 DFLAGS = $(CFLAGS) -gdwarf-4 -g3
 LAUNCHARGS = 
 RM = rm -rf

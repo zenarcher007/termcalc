@@ -1,0 +1,11 @@
+# Install make, c++ tools, etc
+FROM alpine
+RUN apk update && apk add --no-cache \
+    build-base \
+    linux-headers \
+    bash \
+    ncurses-dev \
+    ncurses-libs \
+    make \
+    gcc \
+    clang

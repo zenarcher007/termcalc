@@ -8,6 +8,7 @@ DEBUGDIR = debug
 TESTDIR = tests
 RELEASEDIR = release
 EXECUTABLE = termcalc
+CPPSTANDARD = c++20
 
 # Header search paths
 HEADERS = 
@@ -15,7 +16,7 @@ HEADERS =
 CV_FLAGS = -Wno-unused-value -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses)
 COMPILER := $(shell if command -v clang++ >/dev/null 2>&1; then echo clang++; else echo g++; fi)
 #COMPILER = clang++
-CFLAGS = $(HEADERS) -std=c++20 $(CV_FLAGS)
+CFLAGS = $(HEADERS) -std=$(CPPSTANDARD) $(CV_FLAGS)
 LAUNCHARGS = 
 RM = rm -rf
 

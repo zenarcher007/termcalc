@@ -1,0 +1,29 @@
+FROM test_termcalc_base_alpine
+
+ARG COMPILER="clang++"
+ARG TERM="xterm-256color"
+ARG CPPSTANDARD="c++20"
+ARG OPPOSITE_COMPILER=""
+ENV COMPILER=${COMPILER}
+ENV OPPOSITE_COMPILER=${OPPOSITE_COMPILER}
+ENV TERM=${TERM}
+ENV CPPSTANDARD=${CPPSTANDARD}
+RUN apk add $(echo ${COMPILER} | tr -d '+')
+
+# Delete the "opposite" compiler from the base image
+RUN rm -f "$(which "$OPPOSITE_COMPILER")"
+
+# Verify that we only have one compiler available
+RUN if which g++ && which clang++; then echo "TEST FAILURE: CAN ONLY HAVE ONE COMPILER AT A TIME IN THE TEST"; exit 1; fi
+
+
+
+# Add user / group: https://stackoverflow.com/a/49955098
+RUN addgroup -S termcalc && adduser -S termcalc -G termcalc
+USER termcalc
+
+COPY --chown=termcalc:termcalc . /home/termcalc/termcalc
+WORKDIR /home/termcalc/termcalc
+RUN make clean && touch termcalc.cpp && make test release
+
+ENTRYPOINT ["/home/termcalc/termcalc/release/termcalc"]

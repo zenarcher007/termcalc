@@ -1,0 +1,34 @@
+FROM test_termcalc_base_ubuntu
+
+RUN apt update -y && apt install -y libncurses5-dev build-essential make
+
+ARG COMPILER="clang++"
+ARG TERM="xterm-256color"
+ARG CPPSTANDARD="c++20"
+ARG OPPOSITE_COMPILER=""
+ENV OPPOSITE_COMPILER=${OPPOSITE_COMPILER}
+ENV COMPILER=${COMPILER}
+ENV TERM=${TERM}
+ENV CPPSTANDARD=${CPPSTANDARD}
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt install -y $(echo ${COMPILER} | tr -d '+')
+
+# Delete the "opposite" compiler from the base image
+RUN rm -f "$(which "$OPPOSITE_COMPILER")"
+
+# Verify that we only have one compiler available
+RUN if which g++ && which clang++; then echo "TEST FAILURE: CAN ONLY HAVE ONE COMPILER AT A TIME IN THE TEST"; exit 1; fi
+
+RUN useradd -ms /bin/bash termcalc
+
+USER termcalc
+WORKDIR /home/termcalc
+
+COPY --chown=termcalc:termcalc ../ ./termcalc
+WORKDIR /home/termcalc/termcalc
+
+RUN make clean && touch termcalc.cpp && make test release
+
+ENTRYPOINT [ "/home/termcalc/termcalc/release/termcalc" ]
