@@ -12,9 +12,10 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-          
+
       - name: Run Unit Tests
-        run: make test
+        run: docker build -t termcalc --progress=plain .
+        #make test
       - name: Test OS / Compiler compatibility
         run: cd CompatibilityTests && ./run_tests.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."
