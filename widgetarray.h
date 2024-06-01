@@ -24,10 +24,11 @@ class WidgetArray: public FocusTracker {
 
   public:
   WidgetArray(std::string name, Size s): FocusTracker(name) {
-    widgets = new UIWidget*[s.rows * s.cols];
-    memset(widgets, 0, sizeof(UIWidget[0]) * s.rows  * s.cols);
-    
+    widgets = new UIWidget*[s.rows * s.cols]{0};
     this->dims = s;
+    for(int i = 0; i < dims.rows * dims.cols; ++i) {
+      std::cout << widgets[i] << std::endl;
+    }
   }
 
   ~WidgetArray() {
@@ -70,8 +71,6 @@ class WidgetArray: public FocusTracker {
 
     if (!isOutOfBounds(Point(p.row, p.col + 1), dims)) {
       auto right = getWidgetAtPoint(Point(p.row, p.col + 1));
-      //std::cout << "WIDGET: " << widget->getName() << std::endl;
-      //std::cout << "RIGHT: " << right->getName() << std::endl; // TODO: HERE IS THE SEGFAULT!!! RIGHT IS NOT NULL BUT IS NOT A VALID WIDGET!!
       if (right) {
         add_adjacency(widget->getName(), right->getName(), KEY_RIGHT);
         add_adjacency(right->getName(), widget->getName(), KEY_LEFT);
