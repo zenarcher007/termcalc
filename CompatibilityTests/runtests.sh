@@ -19,8 +19,7 @@ if [[ -z "$DOCKER_CMD" ]]; then
   DOCKER_CMD="docker"
 fi
 echo "Using docker command: $DOCKER_CMD"
-$DOCKER_CMD image ls
-echo $DOCKER_CMD image ls
+
 function master_test() {
   OS="$1"; TERM="$2"; COMPILER="$3"; CPPSTANDARD="$4"
   # Check if base image currently exists:
