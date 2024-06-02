@@ -18,7 +18,11 @@ using namespace termcalc;
 class Calculator {
   private:
   std::unique_ptr<WidgetArray> numpad;
+  std::unique_ptr<WidgetArray> specials;
   std::unique_ptr<UIConsole> console;
+  std::unique_ptr<WidgetArray> keys;
+
+
 
   bool buttonCallback(std::string buttonName) {
     bool retVal = true;
@@ -30,7 +34,7 @@ class Calculator {
     return retVal;
   }
 
-  // Creates buttons 1-9
+  // Creates buttons 1-9, as well as operators
   std::unique_ptr<WidgetArray> initButtons(Point leftCorner, Size buttonSize) {
     
     std::unique_ptr<WidgetArray> wa = std::make_unique<WidgetArray>("Numpad", Size(4, 4));
@@ -58,6 +62,23 @@ class Calculator {
     return wa;
   }
 
+  // Inits "special" buttons like sin, cos, etc
+  std::unique_ptr<WidgetArray> initSpecials(Point leftCorner, Size buttonSize) {
+    std::string buttonNames[] = {"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "exp", "pow", "pi", "e"};
+    std::unique_ptr<WidgetArray> wa(new WidgetArray("Specials", Size(4, 3)));
+    for(int row = 0; row < 4; ++row) {
+      for(int col = 0; col < 3; ++col) {
+        Point location = Point(row, col);
+        std::shared_ptr<UIWidget> button(new UIButton(buttonNames[buttonSize.cols*location.row + location.col]));
+        ((UIButton*) button.get())->setActivatorCallback(std::bind(&Calculator::buttonCallback, this, std::placeholders::_1));
+        wa->addWidgetAtPoint(location, button);
+        button->initWindow(Box(Point(leftCorner.row + location.row*buttonSize.rows, leftCorner.col + location.col*buttonSize.cols), buttonSize));
+      }
+    }
+    return wa;
+  }
+    
+
 public:
   
 
@@ -73,11 +94,22 @@ public:
   Calculator() { // Rows, Cols
     console = std::make_unique<UIConsole>("Console");
     console->initWindow(Box(Point(0, 0), Size(10, 25)));
-    numpad = initButtons(Point(10, 0), Size(3, 3)); // Rows, Cols
+
+    numpad = initButtons(Point(10, 0), Size(5, 5)); // Rows, Cols
+    specials = initSpecials(Point(10, 20), Size(5, 5));
+
+    keys = std::unique_ptr<WidgetArray>(new WidgetArray("Keys", Size(1, 2)));
+    std::shared_ptr<UIWidget> numptr(numpad.get());
+    std::shared_ptr<UIWidget> specptr(specials.get());
+
+    keys->addWidgetAtPoint(Point(0, 0), numptr);
+    keys->addWidgetAtPoint(Point(0, 1), specptr);
+    
   }
 
   void draw() {
     numpad->draw();
+    specials->draw();
   }
 
 };
