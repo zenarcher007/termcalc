@@ -3,6 +3,7 @@
 #include <iostream>
 #include <assert.h>
 #include <string>
+#include <unistd.h>
 
 // Tests if typing "123" displays correctly, in the correct order, and with nothing else on the screen
 void testSmallOrdering() {
@@ -20,6 +21,7 @@ void testSmallOrdering() {
     wmove(console.window, row, 0);
     winnstr(console.window, str+row*cols, cols);
   }
+
 
   std::cout << "<STRING>" << str << "</STRING> ";
   assert(str[0] == '>');
@@ -85,7 +87,10 @@ void testMultilineOrdering(int length) {
 
 
 int main() {
-  
+  if(! isatty(fileno(stdout))) {
+    std::cerr << "INFEASABLE TEST: This test must be run from a terminal (a valid tty)."  << std::endl;
+    return 0;
+  }
   // Write all curses control messages to /dev/null to fool curses into thinking it's running in a terminal.
   FILE* outputDump = fopen("/dev/null", "wb");
   try {
