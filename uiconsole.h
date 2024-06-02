@@ -139,11 +139,28 @@ public:
         }
         return false;
 
-      case '=': { // Equals // KEY_ENTER | 61 || 
-        if(virtualCursorPos.row == getDims().rows - 1)
+      case KEY_DL: { // Functions as "clear"
+        moveCursorTo(Point(virtualCursorPos.row - charBuffer.size() / getDims().cols, 0));
+        type('>');
+        
+        Point origPoint = virtualCursorPos;
+        // Now clear the rest of the screen, bottom down
+        wclrtoeol(window);
+        for(int i = virtualCursorPos.row + 1; i < getDims().rows - 1; ++i) {
+          wmove(window, i, 0);
+          wclrtoeol(window);
+        }
+        wmove(window, origPoint.row, origPoint.col); // Move cursor back
+        return true;
+      }
+
+      case '=': { // Equals // KEY_ENTER
+        if(virtualCursorPos.row == getDims().rows - 1) {
           wscrl(window, 1);
-        else
+          moveCursorTo(Point(virtualCursorPos.row, 0));
+        } else {
           moveCursorTo(Point(virtualCursorPos.row + 1, 0));
+        }
         if(! computeCallback)
           return false;
 
@@ -157,10 +174,12 @@ public:
         carr[j+1] = '\0';
         for(key_t ch : computeCallback(carr))
           type(ch);
-        if(virtualCursorPos.row == getDims().rows - 1)
+        if(virtualCursorPos.row == getDims().rows - 1) {
           wscrl(window, 1);
-        else
+          moveCursorTo(Point(virtualCursorPos.row, 0));
+        } else {
           moveCursorTo(Point(virtualCursorPos.row + 1, 0));
+        }
         charBuffer.clear();
         type('>');
         charBufferIterator = charBuffer.begin();

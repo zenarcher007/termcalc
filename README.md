@@ -9,6 +9,7 @@
 
 ### From a user perspective (higher-level)
 * Clicking a button different from that which is currently selected should both select and activate it.
+* The program should compile and pass all tests on ubuntu and alpine operating systems, with compilers ranging c++14 to c++2a, and both clang and gcc
 
 #### FocusTracker
 * A focustracker should track which widget is currently selected, and pass calls to type() to the underlying widget.

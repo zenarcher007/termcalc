@@ -24,6 +24,8 @@ class Calculator {
   std::unique_ptr<WidgetArray> keys;
 
   std::string computeCallback(const char* expression) {
+
+    // Use te_expr to evaluate the expression
     int* err = NULL;
     double result = te_interp(expression, err);
     if(err != 0) {
@@ -35,6 +37,12 @@ class Calculator {
   }
 
   bool buttonCallback(std::string buttonName) {
+    if(strcmp(buttonName.c_str(), "CLR") == 0) {
+      console->type(KEY_DL);
+      console->draw();
+      return "CLR";
+    }
+
     bool retVal = true;
     for(key_t ch : buttonName) {
       if(!console->type(ch)) // If any failed
@@ -74,7 +82,7 @@ class Calculator {
 
   // Inits "special" buttons like sin, cos, etc
   std::unique_ptr<WidgetArray> initSpecials(Point leftCorner, Size buttonSize) {
-    std::string buttonNames[] = {"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "pow", "pi", "e", "log", "(", ")", "="};
+    std::string buttonNames[] = {"sin", "cos", "tan", "log", "exp", "atan", "ln", "sqrt", "pow", "pi", "e", "CLR", "(", ")", "="};
     //{"sin", "cos", "tan", "ln", "sqrt", "pow", "pi", "(", ")"};
     //{"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "exp", "pow", "pi", "e", "log", "(", ")"};
     Size arrsize(5, 3);
