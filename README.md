@@ -14,3 +14,9 @@
 * The calculator should support clicking buttons with the mouse and selecting them with the keyboard, and it should highlight activated buttons, displaying typed characters in the console
 * The console should support at least typing characters, and it should wrap to the next line for long lines. Each new line for user input will start with a '>' character. Pressing the enter key on an empty line should submit the current expression
 * The calculator should support basic arithmetic operations (+,-,*,/) as well as parentheses
+
+
+### How to build and run:
+* See "How to build pict" section of the report for instructions for building the PICT coverage tool.
+* Build: ```docker build -t termcalc .```
+* Run: ```docker run -t termcalc```
