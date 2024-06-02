@@ -83,7 +83,7 @@ public:
   
 
   bool type(int ch, MEVENT* mevent = nullptr) {
-    numpad->type(ch, mevent);
+    keys->type(ch, mevent);
     //UIButton* b = (UIButton*) numpad->getFocusedWidget();
     //if(b) {
     //  b->draw();

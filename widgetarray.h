@@ -28,6 +28,34 @@ class WidgetArray: public FocusTracker {
     this->dims = s;
   }
 
+  /*
+  // Override getDims()
+  // This is necessary for mouse click detection to work correctly
+  Box getDims() {
+    // Find the minimum start row (Box.row0) and column (Box.col0) of all widgets in the array
+    int minRow = INT32_MAX;
+    int minCol = INT32_MAX;
+    for(int i = 0; i < dims.rows * dims.cols; ++i)  {
+      if(!widgets[i]) continue;
+      Box b = widgets[i]->getDims();
+      if(b.row0 < minRow) minRow = b.row0;
+      if(b.col0 < minCol) minCol = b.col0;
+    }
+    // Find the maximum row and column size (Box.rows, Box.cols) for all widgets in the array
+    int maxRowSize = 0;
+    int maxColSize = 0;
+    for(int i = minRow; i < dims.rows * dims.cols; ++i)   {
+      if(!widgets[i]) continue;
+      Box b = widgets[i]->getDims();
+      if(b.row0 + b.rows > maxRowSize) maxRowSize = b.row0 + b.rows;
+      if(b.col0 + b.cols > maxColSize) maxColSize = b.col0 + b.cols;
+     }
+     std::cout<<"min row "<<minRow <<" max row size "<<maxRowSize - minRow<<std::endl;
+    return Box{minRow, minCol, maxRowSize - minRow, maxColSize - minCol};
+  }
+  */
+
+
   ~WidgetArray() {
     delete widgets;
   }
@@ -36,7 +64,7 @@ class WidgetArray: public FocusTracker {
   void addWidgetAtPoint(Point p, std::shared_ptr<UIWidget> &widget) {
     if(isOutOfBounds(p, dims))  {
       std::ostringstream oss;
-      oss << "addWidgetAtPoint(): Point (" << p.col << "," << p.row << ") is out of bounds";
+      oss << "addWidgetAtPoint(): Point " << p << " is out of bounds";
       throw std::out_of_range(oss.str());
     }
     
@@ -85,7 +113,7 @@ class WidgetArray: public FocusTracker {
     UIWidget* w = getWidgetAtPoint(p);
     if(w == nullptr) {
       std::ostringstream oss;
-      oss << "No widget at location (" << p.col << ", " << p.row << ")";
+      oss << "No widget at location " << p;
       throw std::runtime_error(oss.str());
     }
     std::string name = w->getName();
@@ -96,7 +124,7 @@ class WidgetArray: public FocusTracker {
   UIWidget* getWidgetAtPoint(Point p) {
     if(isOutOfBounds(p, dims))  {
       std::ostringstream oss;
-      oss << "getWidgetAtPoint() (possibly called by selectAtPoint): Point (" << p.col << ", " << p.row << ") is out of bounds";
+      oss << "getWidgetAtPoint() (possibly called by selectAtPoint): Point " << p << " is out of bounds";
       throw std::runtime_error(oss.str());
     }
     return widgets[p.row * dims.cols + p.col];

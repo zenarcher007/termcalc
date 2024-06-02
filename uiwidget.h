@@ -13,6 +13,7 @@ class UIWidget {
   Box dims;
 
   public:
+  bool is_always_clickable;
   std::string name;
   WINDOW *window;
 
@@ -20,6 +21,7 @@ class UIWidget {
     this->name = name;
     window = nullptr;
     highlighted = false;
+    is_always_clickable = false; // If true, this widget will always be tried for mouse clicks by the parent widget, regardless of mouse position
   }
 
   UIWidget() {

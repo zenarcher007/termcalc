@@ -24,9 +24,21 @@ class FocusTracker: public UIWidget {
 
   public:
 
+  // Prints a visual representation of widgetMap
+  void printAjacencyMap() {
+    for (auto it = keyMap.begin(); it != keyMap.end(); ++it) {
+      std::cout << "Widget: " << it->first << "\n";
+      auto inner_map = it->second;
+      for (auto i = inner_map.begin(); i != inner_map.end(); ++i) {
+        std::cout << "Key: " << i->first << ", Widget: " << i->second << "\n";
+      }
+    }
+  }
+
   FocusTracker(std::string name): UIWidget(name) {
     focus = "";
     focusedWidget = nullptr;
+    is_always_clickable = true;
   }
 
   ~FocusTracker() {
@@ -98,15 +110,17 @@ class FocusTracker: public UIWidget {
       if (mevent->bstate & ALL_MOUSE_EVENTS) {
         for(auto it = widgetMap.begin(); it != widgetMap.end(); ++it)  {
           auto dims  = it->second->getDims();
-          if (mevent->x >= dims.col0 && mevent->y >= dims.row0 && mevent->x < dims.col0+dims.cols && mevent->y < dims.row0+dims.rows)  {
-            //std::cout << mevent->x << ", " << mevent->y << std::endl;
-            //std::cout << it->first << std::endl;
-            if(it->second->type(c, mevent)) { // If the widget handles the mouse press, select it
-              //std::cout << it->first << std::endl;
-              select(it->first);
+          // dynamic_cast<FocusTracker*>(&(it->second))
+          bool isInBounds = mevent->x >= dims.col0 && mevent->y >= dims.row0 && mevent->x < dims.col0+dims.cols && mevent->y < dims.row0+dims.rows;
+          if ( (it->second->is_always_clickable || isInBounds) && it->second->type(c, mevent))  {
+            // If the widget was mandantorily considered for clicking (which can be a focustracker instance), it is effectively checked
+            // for whether any widget contained in the tracker is within its bounds. Returns true if so.
+            if(isInBounds) {
+              select(it->first); // TODO: It is unkown why onFocusExit() is not called for the child widget, resulting in the
+              // oddity of having two "selected" sets of buttons
               return true;
             }
-            return false; // The widget did not handle the mouse press, so we do nothing
+            return false;
           }
         }
       }
