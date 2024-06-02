@@ -12,6 +12,7 @@
 #include <atomic>
 #include <unistd.h>
 
+
 using namespace termcalc;
 
 // Please note that all Points and Sizes, etc are in "Rows,Cols" to match with the odd way Curses does it!
@@ -64,12 +65,15 @@ class Calculator {
 
   // Inits "special" buttons like sin, cos, etc
   std::unique_ptr<WidgetArray> initSpecials(Point leftCorner, Size buttonSize) {
-    std::string buttonNames[] = {"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "exp", "pow", "pi", "e"};
-    std::unique_ptr<WidgetArray> wa(new WidgetArray("Specials", Size(4, 3)));
-    for(int row = 0; row < 4; ++row) {
-      for(int col = 0; col < 3; ++col) {
+    std::string buttonNames[] = {"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "exp", "pow", "pi", "e", "log", "(", ")"};
+    //{"sin", "cos", "tan", "ln", "sqrt", "pow", "pi", "(", ")"};
+    //{"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "exp", "pow", "pi", "e", "log", "(", ")"};
+    Size arrsize(5, 3);
+    std::unique_ptr<WidgetArray> wa(new WidgetArray("Specials", arrsize));
+    for(int row = 0; row < arrsize.rows; ++row) {
+      for(int col = 0; col < arrsize.cols; ++col) {
         Point location = Point(row, col);
-        std::shared_ptr<UIWidget> button(new UIButton(buttonNames[buttonSize.cols*location.row + location.col]));
+        std::shared_ptr<UIWidget> button(new UIButton(buttonNames[arrsize.cols*location.row + location.col]));
         ((UIButton*) button.get())->setActivatorCallback(std::bind(&Calculator::buttonCallback, this, std::placeholders::_1));
         wa->addWidgetAtPoint(location, button);
         button->initWindow(Box(Point(leftCorner.row + location.row*buttonSize.rows, leftCorner.col + location.col*buttonSize.cols), buttonSize));
@@ -93,10 +97,10 @@ public:
 
   Calculator() { // Rows, Cols
     console = std::make_unique<UIConsole>("Console");
-    console->initWindow(Box(Point(0, 0), Size(10, 25)));
+    console->initWindow(Box(Point(0, 0), Size(10, 34)));
 
     numpad = initButtons(Point(10, 0), Size(5, 5)); // Rows, Cols
-    specials = initSpecials(Point(10, 20), Size(5, 5));
+    specials = initSpecials(Point(10, 20), Size(4, 5));
 
     keys = std::unique_ptr<WidgetArray>(new WidgetArray("Keys", Size(1, 2)));
     std::shared_ptr<UIWidget> numptr(numpad.get());
