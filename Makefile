@@ -13,7 +13,8 @@ CPPSTANDARD = c++20
 # Header search paths
 HEADERS = 
 
-CV_FLAGS = -Wno-unused-value -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses)
+# TODO: -l:tinyexpr.a: this syntax does not work on Darwin tested. This would otherwise be just -ltinyexpr
+CV_FLAGS = -Wno-unused-value -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses) -Ltinyexprlib -l:tinyexpr.a
 COMPILER := $(shell if command -v clang++ >/dev/null 2>&1; then echo clang++; else echo g++; fi)
 #COMPILER = clang++
 CFLAGS = $(HEADERS) -std=$(CPPSTANDARD) $(CV_FLAGS)
@@ -32,12 +33,12 @@ all: clean release
 default: all
 
 
-release: *.h *.c *.cpp $(SOURCES)
+release: buildlibraries *.h *.c *.cpp $(SOURCES)
 	mkdir -p "$(RELEASEDIR)"
 	# Note: $^ : A list of all the dependencies
 	$(COMPILER) $(SOURCES) -o $(RELEASEDIR)/$(EXECUTABLE) $(RFLAGS)
 
-debug: *.h *.c *.cpp $(SOURCES)
+debug: buildlibraries *.h *.c *.cpp $(SOURCES)
 	mkdir -p "$(DEBUGDIR)"
 	$(COMPILER) $(SOURCES)  -o  $(DEBUGDIR)/$(EXECUTABLE) $(DFLAGS)
 
@@ -45,6 +46,11 @@ debug: *.h *.c *.cpp $(SOURCES)
 
 cleanbuildtests:
 	cd $(TESTDIR) && make clean build
+
+buildlibraries: tinyexpr.c tinyexpr.h tinyexprlib/
+	clang -O3 -flto -c tinyexpr.c -o tinyexprlib/tinyexpr.o
+	ar rcs tinyexprlib/tinyexpr.a tinyexprlib/tinyexpr.o
+	rm tinyexprlib/tinyexpr.o
 
 # The entire continuous integration test cycle
 test:
@@ -54,4 +60,4 @@ run:
 	$(RELEASEDIR)/$(EXECUTABLE) $(LAUNCHARGS)
 
 clean:
-	$(RM) $(DEBUGDIR)/* $(RELEASEDIR)/*
+	$(RM) $(DEBUGDIR)/* $(RELEASEDIR)/* tinyexprlib/*

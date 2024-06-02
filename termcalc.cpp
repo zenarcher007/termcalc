@@ -23,8 +23,14 @@ class Calculator {
   std::unique_ptr<UIConsole> console;
   std::unique_ptr<WidgetArray> keys;
 
-  std::string computeCallback(char* expression) {
-    double result = te_interp(expression, NULL);
+  std::string computeCallback(const char* expression) {
+    int* err = NULL;
+    double result = te_interp(expression, err);
+    if(err != 0) {
+      std::ostringstream oss;
+      oss << "Error: " << *err;
+      return oss.str();
+    }
     return std::to_string(result);
   }
 
@@ -101,6 +107,7 @@ public:
   Calculator() { // Rows, Cols
     console = std::make_unique<UIConsole>("Console");
     console->initWindow(Box(Point(0, 0), Size(10, 34)));
+    console->setComputeCallback(std::bind(&Calculator::computeCallback, this, std::placeholders::_1));
 
     numpad = initButtons(Point(10, 0), Size(5, 5)); // Rows, Cols
     specials = initSpecials(Point(10, 20), Size(4, 5));

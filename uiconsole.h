@@ -21,6 +21,10 @@ public:
     charBufferIterator = charBuffer.begin();
   }
 
+  void setComputeCallback(std::function<std::string(char[])> callback){
+    computeCallback = callback;
+  }
+
   // Disable default onFocusEnter() and onFocusExit() behavior
   void onFocusEnter() override {}
   void onFocusExit() override {}
@@ -47,6 +51,10 @@ public:
     wattr_off(window, A_BLINK, nullptr);
   }
 
+
+  // This was originally intended to read the internal character list and rewrite the current line to update the screen,
+  // but for now, I am just making the call to type characters in type(), which uses more curses native functionality, but
+  // makes it potentially harder to backspace, etc. For now, this just updates the cursor and refreshes the screen.
   virtual void draw() override {
     /*wmove(window, virtualCursorPos.row, 0);
     wclrtoeol(window);
@@ -131,11 +139,15 @@ public:
         }
         return false;
 
-      case KEY_ENTER | 61: { // Equals
-        insertln();
+      case '=': { // Equals // KEY_ENTER | 61 || 
+        if(virtualCursorPos.row == getDims().rows - 1)
+          wscrl(window, 1);
+        else
+          moveCursorTo(Point(virtualCursorPos.row + 1, 0));
         if(! computeCallback)
           return false;
 
+        charBuffer.pop_front(); // Remove the '>'
         // Create a string out of all the characters in the buffer
         char* carr = new char[charBuffer.size()+1];
         int j = 0;
@@ -145,8 +157,14 @@ public:
         carr[j+1] = '\0';
         for(key_t ch : computeCallback(carr))
           type(ch);
-        insertln();
-        waddch(window, '>');
+        if(virtualCursorPos.row == getDims().rows - 1)
+          wscrl(window, 1);
+        else
+          moveCursorTo(Point(virtualCursorPos.row + 1, 0));
+        charBuffer.clear();
+        type('>');
+        charBufferIterator = charBuffer.begin();
+        draw();
         return true;
       }
 
@@ -159,7 +177,8 @@ public:
         mvwaddch(window, virtualCursorPos.row, virtualCursorPos.col-1, (char) c);
 
         // Update the char list and its iterator
-        charBuffer.insert(charBufferIterator, c);
+        //charBuffer.insert(charBufferIterator, c);
+        charBuffer.push_back(c);
         return true;
     
     }

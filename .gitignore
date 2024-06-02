@@ -12,3 +12,4 @@ tests/debug
 *.bc
 *.dSYM
 tests.log
+tinyexprlib/*
