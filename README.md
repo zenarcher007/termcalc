@@ -12,9 +12,6 @@
 
 
 ### User story specifications
-* The calculator should support clicking buttons with the mouse and selecting them with the keyboard, and it should highlight activated buttons
-* The program should throw an error and not start if the size of the terminal is smaller than needed to fit the screen representation and all buttons
-
-### Implementation details
-* There will be a text input buffer. When the text typed matches that of any button (on the normal keyboard), that button will be activated. An unordered_map from button names to buttons will be used for quick search
-* Each button will have a length of 4. There will be an overlap that goes 4 chars outside of the screen area for the additional "clear", operations, and enter buttons.
+* The calculator should support clicking buttons with the mouse and selecting them with the keyboard, and it should highlight activated buttons, displaying typed characters in the console
+* The console should support at least typing characters, and it should wrap to the next line for long lines. Each new line for user input will start with a '>' character. Pressing the enter key on an empty line should submit the current expression
+* The calculator should support basic arithmetic operations (+,-,*,/) as well as parentheses

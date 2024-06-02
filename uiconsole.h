@@ -33,15 +33,17 @@ public:
   void moveCursorTo(Point p) {
     if(window == nullptr)
       return;
+    wattr_on(window, A_BLINK, nullptr);
     mvwchgat(window, virtualCursorPos.row, virtualCursorPos.col, 1, A_NORMAL, 1, NULL);
     virtualCursorPos = p;
     wmove(window, p.row, p.col);
     //mvwchgat(window, row, 0, -1, A_REVERSE, 1, NULL);
     mvwchgat(window, p.row, p.col, 1, A_BLINK, 1, NULL);
+    wattr_off(window, A_BLINK, nullptr);
   }
 
   virtual void draw() override {
-    for(int i = 0; i < charBuffer.size() % getDims().cols+1; ++i) {
+    for(int i = 0; i < charBuffer.size() / getDims().cols+1; ++i) {
       wmove(window, virtualCursorPos.row-i, 0);
       wclrtoeol(window);
       // Create a string out of all the characters in the buffer
@@ -86,7 +88,7 @@ public:
           return true;
         }
         moveCursorTo(Point(virtualCursorPos.row, virtualCursorPos.col  + 1));
-        ++charBufferIterator;
+        //++charBufferIterator;
         return true;
 
       case KEY_BACKSPACE:
@@ -107,7 +109,7 @@ public:
         mvwaddch(window, virtualCursorPos.row, virtualCursorPos.col, (char) c);
 
         // Update the char list and its iterator
-        charBuffer.insert(charBufferIterator++, c);
+        charBuffer.insert(charBufferIterator, c);
         return true;
     
     }

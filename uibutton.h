@@ -45,7 +45,9 @@ class UIButton: public UIWidget {
     int textRows = len / d.rows;
     int textCols = len;
     if(textCols > d.cols) textCols = d.cols;
+    wattr_on(window, A_BOLD, nullptr);
     mvwaddstr(window, d.rows/2 - (textRows/2), d.cols/2 - (textCols/2), name.c_str()); // Center the text in the window if possible
+    wattr_off(window, A_BOLD, nullptr);
     UIWidget::draw();
   }
 
