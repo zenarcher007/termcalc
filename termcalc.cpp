@@ -23,7 +23,10 @@ class Calculator {
   std::unique_ptr<UIConsole> console;
   std::unique_ptr<WidgetArray> keys;
 
-
+  std::string computeCallback(char* expression) {
+    double result = te_interp(expression, NULL);
+    return std::to_string(result);
+  }
 
   bool buttonCallback(std::string buttonName) {
     bool retVal = true;
@@ -65,7 +68,7 @@ class Calculator {
 
   // Inits "special" buttons like sin, cos, etc
   std::unique_ptr<WidgetArray> initSpecials(Point leftCorner, Size buttonSize) {
-    std::string buttonNames[] = {"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "exp", "pow", "pi", "e", "log", "(", ")"};
+    std::string buttonNames[] = {"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "pow", "pi", "e", "log", "(", ")", "="};
     //{"sin", "cos", "tan", "ln", "sqrt", "pow", "pi", "(", ")"};
     //{"sin", "cos", "tan", "asin", "acos", "atan", "ln", "sqrt", "exp", "pow", "pi", "e", "log", "(", ")"};
     Size arrsize(5, 3);

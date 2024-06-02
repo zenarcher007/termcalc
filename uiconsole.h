@@ -11,6 +11,7 @@ private:
   Point virtualCursorPos;
   std::list<key_t> charBuffer;
   std::list<int>::iterator charBufferIterator;
+  std::function<std::string(char[])> computeCallback;
 
   int min(int a, int b){ return (a < b)? a:b; }
 
@@ -130,10 +131,24 @@ public:
         }
         return false;
 
-      case KEY_ENTER:
+      case KEY_ENTER | 61: { // Equals
+        insertln();
+        if(! computeCallback)
+          return false;
+
+        // Create a string out of all the characters in the buffer
+        char* carr = new char[charBuffer.size()+1];
+        int j = 0;
+        for(key_t ch : charBuffer) {
+          carr[j++] = ch;
+        }
+        carr[j+1] = '\0';
+        for(key_t ch : computeCallback(carr))
+          type(ch);
         insertln();
         waddch(window, '>');
         return true;
+      }
 
       default:
         // ncurses function to mv and set the character at the current cursor position, without affecting the cursor
