@@ -21,9 +21,9 @@ void testSmallOrdering() {
     winnstr(console.window, str+row*cols, cols);
   }
 
-  std::cout << "<STRING>" << str << "</STRING>" << std::endl;
-  assert(str[0] == 32); // I don't exactly know why the first character is empty, but it is
-  assert (str[1] == '1'); // Appears to be 1-indexed??
+  std::cout << "<STRING>" << str << "</STRING> ";
+  assert(str[0] == '>');
+  assert (str[1] == '1');
   assert (str[2] == '2');
   assert (str[3] == '3');
   
@@ -42,6 +42,7 @@ void testMultilineOrdering(int length) {
   int rows = 5;
   int cols = 8;
   console.initWindow(Box(Point(0, 0), Size(rows, cols)));
+  --cols; // ***** Decrement cols because the last column is not used.
   char* stringToInject = new char[length];
   int whi = 0;
   while(whi < length) {
@@ -61,13 +62,13 @@ void testMultilineOrdering(int length) {
     winnstr(console.window, str+row*cols, cols);
   }
   
-  std::cout << "<STRING>" << str <<  "</STRING>" << std::endl;
+  std::cout << "<STRING>" << str <<  "</STRING> ";
 
-  // Check that index 0 is empty (for whatever reason)
-  assert(str[0] == 32);
+  assert(str[0] == '>');
 
-  // Compare the extracted string (starting after index 1) and stringToInject
+  // Compare the extracted string (starting after index 2) and stringToInject
   for(int i=1; i<length+1; ++i) {
+    std::cout << str[i]  << " " << stringToInject[i-1] << std::endl;
     assert(str[i] == stringToInject[i-1]);
   }
 

@@ -11,6 +11,9 @@ private:
   Point virtualCursorPos;
   std::list<key_t> charBuffer;
   std::list<int>::iterator charBufferIterator;
+
+  int min(int a, int b){ return (a < b)? a:b; }
+
 public:
   UIConsole(std::string name): UIWidget(name) {
     virtualCursorPos = Point(0,0);
@@ -27,6 +30,7 @@ public:
     virtualCursorPos = Point(0,0);
     moveCursorTo(virtualCursorPos);
     scrollok(window, true);
+    type('>');
   }
 
 
@@ -43,27 +47,52 @@ public:
   }
 
   virtual void draw() override {
-    for(int i = 0; i < charBuffer.size() / getDims().cols+1; ++i) {
+    /*wmove(window, virtualCursorPos.row, 0);
+    wclrtoeol(window);
+
+    // Create a string out of all the characters in the buffer
+    char* carr = new char[charBuffer.size()+1];
+    int j = 0;
+    for(key_t ch : charBuffer) {
+      carr[j++] = ch;
+    }
+    carr[j+1] = '\0';
+    int lengthOnThisLine = (charBuffer.size() % getDims().cols);
+    waddnstr(window, &carr[charBuffer.size()]-lengthOnThisLine, getDims().cols);*/
+
+    
+    /*for(int i = 0; i < charBuffer.size() / getDims().cols+1; ++i) {
       wmove(window, virtualCursorPos.row-i, 0);
       wclrtoeol(window);
-      // Create a string out of all the characters in the buffer
-      
-      char* carr = new char[charBuffer.size()+1];
-      int j = 0;
-      for(key_t ch : charBuffer) {
-        carr[j++] = ch;
-      }
-      carr[j+1] = '\0';
-      winsstr(window, carr);
-      //highlightAll();
-      moveCursorTo(virtualCursorPos);
-      UIWidget::draw();
     }
+    
+    // Create a string out of all the characters in the buffer
+    
+    char* carr = new char[charBuffer.size()+1];
+    int j = 0;
+    for(key_t ch : charBuffer) {
+      carr[j++] = ch;
+    }
+    carr[j+1] = '\0';
+    for(int k = 0; k < charBuffer.size(); k+=getDims().cols)  {
+      //wmove(window, virtualCursorPos.row-k/getDims().cols, k%getDims().cols);
+      int row, col;
+      getyx(window, row, col);
+      waddnstr(window, carr+k, min(getDims().cols, charBuffer.size() - getDims().cols));
+      wmove(window, row+1, 0);
+    }
+    //waddstr(window, carr);
+    delete[] carr;
+    //highlightAll();
+    */
+    moveCursorTo(virtualCursorPos);
+    UIWidget::draw();
 
    }
 
   // Recieves a character. Return true from this function if the character was processed, or false otherwise
   virtual bool type(key_t c, MEVENT* mevent = nullptr) override {
+    wmove(window, virtualCursorPos.row, virtualCursorPos.col); // Sync cursor
     if(window == nullptr)
       return false;
     switch(c) {
@@ -83,7 +112,8 @@ public:
         if  (virtualCursorPos.col >= getDims().cols - 1) { // If at end of current line
           if  (virtualCursorPos.row >= getDims().rows - 1) // If cannot go a row down
             return false;
-          moveCursorTo(Point(virtualCursorPos.row + 1, 0)); // Go to beginning of next line
+          
+          moveCursorTo(Point(virtualCursorPos.row + 1, 1)); // Go to beginning of next line
           ++charBufferIterator;
           return true;
         }
@@ -100,13 +130,18 @@ public:
         }
         return false;
 
+      case KEY_ENTER:
+        insertln();
+        waddch(window, '>');
+        return true;
+
       default:
         // ncurses function to mv and set the character at the current cursor position, without affecting the cursor
         if(! type(KEY_RIGHT, mevent)) { // If going right hit the end of the screen, advance and go to the left of the next line
-          wscrl(window, -1);
+          wscrl(window, 1);
           virtualCursorPos = Point(virtualCursorPos.row, 0);
         }
-        mvwaddch(window, virtualCursorPos.row, virtualCursorPos.col, (char) c);
+        mvwaddch(window, virtualCursorPos.row, virtualCursorPos.col-1, (char) c);
 
         // Update the char list and its iterator
         charBuffer.insert(charBufferIterator, c);
