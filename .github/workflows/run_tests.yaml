@@ -15,7 +15,7 @@ jobs:
 
       - name: Run Unit Tests
         run: make test
-      - name: build Microsoft PICT image tool
+      - name: build Microsoft PICT tool image
         run: git clone https://github.com/microsoft/pict.git && cd pict && mv Containerfile Dockerfile && docker build -t pict .
       - name: Test OS / Compiler compatibility
         run: cd CompatibilityTests && EXTRA_DOCKER_BUILD_ARGS="--cache-from type=gha --cache-to type=gha,mode=max" ./runtests.sh

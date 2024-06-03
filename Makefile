@@ -49,10 +49,11 @@ debug: buildlibraries *.h *.c *.cpp $(SOURCES)
 cleanbuildtests:
 	cd $(TESTDIR) && make clean build
 
-mklibrarydir:
-	mkdir -p tinyexprlib
-
-buildlibraries: mklibrarydir tinyexpr.c tinyexpr.h tinyexprlib/libtinyexpr.a
+# Why doesnt this work??
+#mklibrarydir:
+#	mkdir -p tinyexprlib
+# mklibrarydir tinyexpr.c tinyexpr.h tinyexprlib/libtinyexpr.a
+buildlibraries:
 	echo "Using C compiler: $(C_COMPILER)"
 	$(C_COMPILER) -O3 -flto -c tinyexpr.c -o tinyexprlib/tinyexpr.o
 	ar rcs tinyexprlib/libtinyexpr.a tinyexprlib/tinyexpr.o
