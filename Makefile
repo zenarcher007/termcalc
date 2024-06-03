@@ -14,8 +14,10 @@ CPPSTANDARD = c++20
 HEADERS = 
 
 # TODO: -l:tinyexpr.a: this syntax does not work on Darwin tested. This would otherwise be just -ltinyexpr
-CV_FLAGS = -Wno-unused-value -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses) -Ltinyexprlib -l:tinyexpr.a
+CV_FLAGS = -Wno-unused-value -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses) -Ltinyexprlib -ltinyexpr
 COMPILER := $(shell if command -v clang++ >/dev/null 2>&1; then echo clang++; else echo g++; fi)
+C_COMPILER := $(shell if [ $(COMPILER) == "clang++" ]; then echo clang ; else echo gcc ; fi )
+#$(shell if command -v clang >/dev/null 2>&1; then echo clang; else echo gcc; fi)
 #COMPILER = clang++
 CFLAGS = $(HEADERS) -std=$(CPPSTANDARD) $(CV_FLAGS)
 LAUNCHARGS = 
@@ -48,12 +50,12 @@ cleanbuildtests:
 	cd $(TESTDIR) && make clean build
 
 buildlibraries: tinyexpr.c tinyexpr.h tinyexprlib/
-	clang -O3 -flto -c tinyexpr.c -o tinyexprlib/tinyexpr.o
-	ar rcs tinyexprlib/tinyexpr.a tinyexprlib/tinyexpr.o
+	$(C_COMPILER) -O3 -flto -c tinyexpr.c -o tinyexprlib/tinyexpr.o
+	ar rcs tinyexprlib/libtinyexpr.a tinyexprlib/tinyexpr.o
 	rm tinyexprlib/tinyexpr.o
 
 # The entire continuous integration test cycle
-test:
+test: buildlibraries
 	cd $(TESTDIR) && make clean build run
 
 run:
