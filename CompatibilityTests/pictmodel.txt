@@ -1,6 +1,11 @@
 OS: ubuntu, alpine
 TERM: xterm-256color, vt220
-COMPILER: g++, clang++
+
+# For now, we will support only clang++, since g++ has a problem with "file format not recognized" when trying to link against the
+# compiled tinyexpr library. When this is fixed, g++ will be re-enabled.
+COMPILER: clang++
+#  g++, 
+
 CPPSTANDARD: c++14, c++17, c++20, c++23, c++2a
 
 # Since terminal color is likely a fairly operating system-independent attribute, we therefore would gain less by testing
