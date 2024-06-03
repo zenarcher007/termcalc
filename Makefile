@@ -49,8 +49,7 @@ debug: buildlibraries *.h *.c *.cpp $(SOURCES)
 cleanbuildtests:
 	cd $(TESTDIR) && make clean build
 
-buildlibraries:
-#tinyexpr.c tinyexpr.h
+buildlibraries: tinyexpr.c tinyexpr.h tinyexprlib/
 	echo "Using C compiler: $(C_COMPILER)"
 	$(C_COMPILER) -O3 -flto -c tinyexpr.c -o tinyexprlib/tinyexpr.o
 	ar rcs tinyexprlib/libtinyexpr.a tinyexprlib/tinyexpr.o
