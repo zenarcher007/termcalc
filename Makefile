@@ -16,7 +16,7 @@ HEADERS =
 # TODO: -l:tinyexpr.a: this syntax does not work on Darwin tested. This would otherwise be just -ltinyexpr
 CV_FLAGS = -Wno-unused-value -DNCURSES_STATIC $(shell pkg-config --cflags --libs ncurses) -Ltinyexprlib -ltinyexpr
 COMPILER := $(shell if command -v clang++ >/dev/null 2>&1; then echo clang++; else echo g++; fi)
-C_COMPILER := $(shell if [ "$(COMPILER)" == "clang++" ]; then echo clang ; else echo gcc ; fi )
+C_COMPILER := "clang" #$(shell if [ "$(COMPILER)" == "clang++" ]; then echo clang ; else echo gcc ; fi )
 #$(shell if command -v clang >/dev/null 2>&1; then echo clang; else echo gcc; fi)
 #COMPILER = clang++
 CFLAGS = $(HEADERS) -std=$(CPPSTANDARD) $(CV_FLAGS)
