@@ -64,3 +64,4 @@ run:
 
 clean:
 	$(RM) $(DEBUGDIR)/* $(RELEASEDIR)/* tinyexprlib/*
+	touch tinyexprlib/dummy
